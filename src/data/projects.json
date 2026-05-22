@@ -98,20 +98,6 @@
     "order": 7
   },
   {
-    "id": "dm-advocacia",
-    "title": "D&M Advocacia",
-    "tags": [
-      "HTML",
-      "CSS",
-      "JavaScript"
-    ],
-    "image": "dmadv.png",
-    "description_pt": "Site institucional de grande escritório de advocacia localizado em Salvador/BA.",
-    "description_en": "Institutional website for a firm specializing in Tax and Business Law, based in Salvador.",
-    "url": "https://dmadvocacia.com.br/",
-    "order": 8
-  },
-  {
     "id": "locmais-ba",
     "title": "LocMais BA",
     "tags": [
@@ -123,6 +109,20 @@
     "description_pt": "Site corporativo e catálogo digital para a LocMais, empresa especializada em locação de equipamentos para a construção civil na Bahia. Desenvolvimento do site, otimização de performance e SEO.",
     "description_en": "Corporate website and digital catalog for LocMais, a company specializing in equipment rental for civil construction in Bahia. Website development, performance optimization, and SEO.",
     "url": "https://www.locmaisba.com.br/",
+    "order": 8
+  },
+  {
+    "id": "dm-advocacia",
+    "title": "D&M Advocacia",
+    "tags": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "image": "dmadv.png",
+    "description_pt": "Site institucional de grande escritório de advocacia localizado em Salvador/BA.",
+    "description_en": "Institutional website for a firm specializing in Tax and Business Law, based in Salvador.",
+    "url": "https://dmadvocacia.com.br/",
     "order": 9
   },
   {
