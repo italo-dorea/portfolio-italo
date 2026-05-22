@@ -924,7 +924,7 @@ export default function AdminPanel() {
                 ? "bg-emerald-500/10 border-emerald-500/25 text-emerald-400"
                 : statusMessage.type === "error"
                 ? "bg-rose-500/10 border-rose-500/25 text-rose-500"
-                : "bg-blue-500/10 border-blue-500/25 text-foreground"
+                : "bg-accent/10 border-accent/25 text-foreground"
             }`}
           >
             <span>{statusMessage.text}</span>
@@ -1002,7 +1002,7 @@ export default function AdminPanel() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 font-semibold text-foreground transition-colors flex items-center justify-center gap-2 shadow-lg shadow-sm disabled:opacity-50"
+                className="w-full py-3.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 font-semibold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-sm disabled:opacity-50"
               >
                 {isLoading ? (
                   <RefreshCw className="animate-spin" size={18} />
@@ -1028,7 +1028,7 @@ export default function AdminPanel() {
                 }}
                 className={`px-4 py-3 rounded-xl font-semibold text-sm transition-all flex items-center gap-2.5 whitespace-nowrap ${
                   activeTab === "projects"
-                    ? "bg-blue-600 text-foreground shadow-md shadow-sm"
+                    ? "bg-accent text-accent-foreground shadow-sm"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                 }`}
               >
@@ -1046,7 +1046,7 @@ export default function AdminPanel() {
                 }}
                 className={`px-4 py-3 rounded-xl font-semibold text-sm transition-all flex items-center gap-2.5 whitespace-nowrap ${
                   activeTab === "posts"
-                    ? "bg-blue-600 text-foreground shadow-md shadow-sm"
+                    ? "bg-accent text-accent-foreground shadow-sm"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                 }`}
               >
@@ -1064,7 +1064,7 @@ export default function AdminPanel() {
                 }}
                 className={`px-4 py-3 rounded-xl font-semibold text-sm transition-all flex items-center gap-2.5 whitespace-nowrap ${
                   activeTab === "education"
-                    ? "bg-blue-600 text-foreground shadow-md shadow-sm"
+                    ? "bg-accent text-accent-foreground shadow-sm"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                 }`}
               >
@@ -1082,7 +1082,7 @@ export default function AdminPanel() {
                 }}
                 className={`px-4 py-3 rounded-xl font-semibold text-sm transition-all flex items-center gap-2.5 whitespace-nowrap ${
                   activeTab === "skills"
-                    ? "bg-blue-600 text-foreground shadow-md shadow-sm"
+                    ? "bg-accent text-accent-foreground shadow-sm"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                 }`}
               >
@@ -1100,7 +1100,7 @@ export default function AdminPanel() {
                 }}
                 className={`px-4 py-3 rounded-xl font-semibold text-sm transition-all flex items-center gap-2.5 whitespace-nowrap ${
                   activeTab === "profile"
-                    ? "bg-blue-600 text-foreground shadow-md shadow-sm"
+                    ? "bg-accent text-accent-foreground shadow-sm"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                 }`}
               >
@@ -1118,7 +1118,7 @@ export default function AdminPanel() {
                 }}
                 className={`px-4 py-3 rounded-xl font-semibold text-sm transition-all flex items-center gap-2.5 whitespace-nowrap ${
                   activeTab === "settings"
-                    ? "bg-blue-600 text-foreground shadow-md shadow-sm"
+                    ? "bg-accent text-accent-foreground shadow-sm"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                 }`}
               >
@@ -1136,7 +1136,7 @@ export default function AdminPanel() {
                     <h2 className="text-xl font-bold text-foreground">Lista de Projetos</h2>
                     <button
                       onClick={handleAddNewProject}
-                      className="px-4 py-2 rounded-xl bg-accent text-accent-foreground hover:opacity-90 font-semibold text-foreground text-sm transition-all flex items-center gap-1.5"
+                      className="px-4 py-2 rounded-xl bg-accent text-accent-foreground hover:opacity-90 font-semibold text-sm transition-all flex items-center gap-1.5"
                     >
                       <Plus size={16} />
                       Novo Projeto
@@ -1366,7 +1366,7 @@ export default function AdminPanel() {
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className="px-6 py-2.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-foreground text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-sm"
+                        className="px-6 py-2.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-sm"
                       >
                         <Save size={16} />
                         Salvar e Publicar
@@ -1383,7 +1383,7 @@ export default function AdminPanel() {
                     <h2 className="text-xl font-bold text-foreground">Postagens do Blog</h2>
                     <button
                       onClick={handleAddNewPost}
-                      className="px-4 py-2 rounded-xl bg-accent text-accent-foreground hover:opacity-90 font-semibold text-foreground text-sm transition-all flex items-center gap-1.5"
+                      className="px-4 py-2 rounded-xl bg-accent text-accent-foreground hover:opacity-90 font-semibold text-sm transition-all flex items-center gap-1.5"
                     >
                       <Plus size={16} />
                       Nova Postagem
@@ -1496,7 +1496,7 @@ export default function AdminPanel() {
                             id="published"
                             checked={editingPost.published || false}
                             onChange={(e) => setEditingPost({ ...editingPost, published: e.target.checked })}
-                            className="w-4 h-4 rounded text-accent bg-background border-border focus:ring-blue-500"
+                            className="w-4 h-4 rounded text-accent bg-background border-border focus:ring-accent"
                           />
                           <label htmlFor="published" className="ml-2 text-foreground text-sm font-medium">
                             Publicado (Visível no site)
@@ -1577,7 +1577,7 @@ export default function AdminPanel() {
                                 setShowNewCategoryInput(false);
                               }
                             }}
-                            className="px-4 py-2 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-foreground font-semibold text-xs transition-colors"
+                            className="px-4 py-2 rounded-xl bg-accent text-accent-foreground hover:opacity-90 font-semibold text-xs transition-colors"
                           >
                             Confirmar
                           </button>
@@ -1629,7 +1629,7 @@ export default function AdminPanel() {
                                   }}
                                   className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
                                     isSelected
-                                      ? "bg-blue-600 text-foreground"
+                                      ? "bg-accent text-accent-foreground"
                                       : "bg-background border border-border text-muted-foreground hover:text-foreground"
                                   }`}
                                 >
@@ -1734,7 +1734,7 @@ export default function AdminPanel() {
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className="px-6 py-2.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-foreground text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-sm"
+                        className="px-6 py-2.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-sm"
                       >
                         <Save size={16} />
                         Salvar e Publicar
@@ -1751,7 +1751,7 @@ export default function AdminPanel() {
                     <h2 className="text-xl font-bold text-foreground">Educação, Cursos & Certificados</h2>
                     <button
                       onClick={handleAddNewEducation}
-                      className="px-4 py-2 rounded-xl bg-accent text-accent-foreground hover:opacity-90 font-semibold text-foreground text-sm transition-all flex items-center gap-1.5"
+                      className="px-4 py-2 rounded-xl bg-accent text-accent-foreground hover:opacity-90 font-semibold text-sm transition-all flex items-center gap-1.5"
                     >
                       <Plus size={16} />
                       Adicionar Registro
@@ -1958,7 +1958,7 @@ export default function AdminPanel() {
                                   }}
                                   className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
                                     isSelected
-                                      ? "bg-blue-600 text-foreground"
+                                      ? "bg-accent text-accent-foreground"
                                       : "bg-background border border-border text-muted-foreground hover:text-foreground"
                                   }`}
                                 >
@@ -1982,7 +1982,7 @@ export default function AdminPanel() {
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className="px-6 py-2.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-foreground text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-sm"
+                        className="px-6 py-2.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-sm"
                       >
                         <Save size={16} />
                         Salvar e Publicar
@@ -1999,7 +1999,7 @@ export default function AdminPanel() {
                     <h2 className="text-xl font-bold text-foreground">Minhas Habilidades</h2>
                     <button
                       onClick={handleAddNewSkill}
-                      className="px-4 py-2 rounded-xl bg-accent text-accent-foreground hover:opacity-90 font-semibold text-foreground text-sm transition-all flex items-center gap-1.5"
+                      className="px-4 py-2 rounded-xl bg-accent text-accent-foreground hover:opacity-90 font-semibold text-sm transition-all flex items-center gap-1.5"
                     >
                       <Plus size={16} />
                       Nova Habilidade
@@ -2166,7 +2166,7 @@ export default function AdminPanel() {
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className="px-6 py-2.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-foreground text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-sm"
+                        className="px-6 py-2.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-sm"
                       >
                         <Save size={16} />
                         Salvar e Publicar
@@ -2291,7 +2291,7 @@ export default function AdminPanel() {
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className="px-6 py-2.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-foreground text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-sm"
+                        className="px-6 py-2.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-sm"
                       >
                         <Save size={16} />
                         Salvar e Publicar
@@ -2363,7 +2363,7 @@ export default function AdminPanel() {
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className="px-6 py-2.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-foreground text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-sm"
+                        className="px-6 py-2.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-sm"
                       >
                         {isLoading ? (
                           <RefreshCw className="animate-spin" size={16} />
