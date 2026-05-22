@@ -4,6 +4,7 @@ import { slugifyStr } from "./slugify";
 import config from "@/config";
 
 function getPostPathSegments(filePath: string | undefined): string[] {
+  if (!filePath || !filePath.includes(BLOG_PATH)) return [];
   return (
     filePath
       ?.replace(BLOG_PATH, "")
