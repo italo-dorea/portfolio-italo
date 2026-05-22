@@ -103,21 +103,6 @@
     "screenshot": "a4locadorascreeshot.png"
   },
   {
-    "id": "locmais-ba",
-    "title": "LocMais BA",
-    "tags": [
-      "WordPress",
-      "Construção Civil",
-      "SEO"
-    ],
-    "image": "locmais-home.png",
-    "description_pt": "Site corporativo e catálogo digital para a LocMais, empresa especializada em locação de equipamentos para a construção civil na Bahia. Desenvolvimento do site, otimização de performance e SEO.",
-    "description_en": "Corporate website and digital catalog for LocMais, a company specializing in equipment rental for civil construction in Bahia. Website development, performance optimization, and SEO.",
-    "url": "https://www.locmaisba.com.br/",
-    "order": 8,
-    "screenshot": "locmaisscreshot.png"
-  },
-  {
     "id": "easy-process",
     "title": "EasyProcess",
     "tags": [
@@ -129,7 +114,22 @@
     "description_pt": "Sistema de gestão de processos de trabalho, gerenciamento de equipes e criação de fluxo de trabalho e gerenciamento de clientes de consultoria",
     "description_en": "Work process management system, team management, workflow creation, and consulting client management.",
     "url": "",
-    "order": 9
+    "order": 8
+  },
+  {
+    "id": "locmais-ba",
+    "title": "LocMais BA",
+    "tags": [
+      "WordPress",
+      "Construção Civil",
+      "SEO"
+    ],
+    "image": "locmais-home.png",
+    "description_pt": "Site corporativo e catálogo digital para a LocMais, empresa especializada em locação de equipamentos para a construção civil na Bahia. Desenvolvimento do site, otimização de performance e SEO.",
+    "description_en": "Corporate website and digital catalog for LocMais, a company specializing in equipment rental for civil construction in Bahia. Website development, performance optimization, and SEO.",
+    "url": "https://www.locmaisba.com.br/",
+    "order": 9,
+    "screenshot": "locmaisscreshot.png"
   },
   {
     "id": "dm-advocacia",
