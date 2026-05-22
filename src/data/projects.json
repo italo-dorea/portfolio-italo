@@ -123,5 +123,15 @@
     "description_en": "An assistive tool that processes HTML content and converts it into standard HTML format.",
     "url": "https://ifdc2308.github.io/htmlConverter/",
     "order": 9
+  },
+  {
+    "id": "locmais-ba",
+    "title": "LocMais BA",
+    "tags": ["WordPress", "Construção Civil", "SEO"],
+    "image": "locmais.png",
+    "description_pt": "Site corporativo e catálogo digital para a LocMais, empresa especializada em locação de equipamentos para a construção civil na Bahia. Desenvolvimento do site, otimização de performance e SEO.",
+    "description_en": "Corporate website and digital catalog for LocMais, a company specializing in equipment rental for civil construction in Bahia. Website development, performance optimization, and SEO.",
+    "url": "https://www.locmaisba.com.br/",
+    "order": 10
   }
 ]
