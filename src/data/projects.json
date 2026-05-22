@@ -41,7 +41,8 @@
     "description_pt": "Site do maior evento do brasil sobre tributação na adm. pública. Desenvolvi a interface e suas implementações, formulário e interatividade.",
     "description_en": "Website for a nationwide event, with contact form, gallery and information pages.",
     "url": "https://gtap.com.br/",
-    "order": 3
+    "order": 3,
+    "screenshot": "gtap-screen.png"
   },
   {
     "id": "cnpj-search",
