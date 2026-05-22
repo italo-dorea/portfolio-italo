@@ -7,11 +7,12 @@
       "CSS",
       "UI/UX"
     ],
-    "image": "gestaotributaria.png",
+    "image": "gt-home.png",
     "description_pt": "Software de pesquisas, módulo EFD-Reinf e ferramentas complementares na área tributária. Atuo como desenvolvedor front-end e analista, implementando novas funcionalidades, melhorias de UI/UX design e correções.",
     "description_en": "Research software, EFD-Reinf module, and complementary tools in the tax area. I work as a front-end developer implementing new functionalities, UI/UX improvements, and more.",
     "url": "https://gestaotributaria.com.br/",
-    "order": 1
+    "order": 1,
+    "screenshot": "gestaotributariaui.png"
   },
   {
     "id": "exito-1000",
