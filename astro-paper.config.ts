@@ -2,11 +2,11 @@ import { defineAstroPaperConfig } from "./src/types/config";
 
 export default defineAstroPaperConfig({
   site: {
-    url: "https://ifdc2308.github.io/portfolio-italo/",
+    url: "https://italo-dorea.github.io/portfolio-italo/",
     title: "Ítalo Dórea",
     description: "Portfólio profissional de Ítalo Dórea, Desenvolvedor e Analista de Softwares.",
     author: "Ítalo Dórea",
-    profile: "https://github.com/ifdc2308",
+    profile: "https://github.com/italo-dorea",
     ogImage: "default-og.jpg",
     lang: "pt",
     timezone: "America/Bahia",
@@ -28,7 +28,7 @@ export default defineAstroPaperConfig({
     search: "pagefind",
   },
   socials: [
-    { name: "github",   url: "https://github.com/ifdc2308" },
+    { name: "github",   url: "https://github.com/italo-dorea" },
     { name: "linkedin", url: "https://www.linkedin.com/in/italo-dorea/" },
     { name: "instagram", url: "https://www.instagram.com/italo_dorea/" },
     { name: "mail",     url: "mailto:italoiddev@gmail.com" },
