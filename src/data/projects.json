@@ -45,20 +45,6 @@
     "screenshot": "gtap-screen.png"
   },
   {
-    "id": "cnpj-search",
-    "title": "CNPJ Search",
-    "tags": [
-      "TypeScript",
-      "API",
-      "React"
-    ],
-    "image": "cnpjSearch.png",
-    "description_pt": "Sistema de pesquisa de empresas brasileiras pelo nº CNPJ. Encontre uma empresa, informações de contato e muito mais.",
-    "description_en": "A tool for querying data about Brazilian companies using their CNPJ. All the information you need about a company in one place.",
-    "url": "https://cnpj-pesquisar.netlify.app/",
-    "order": 4
-  },
-  {
     "id": "easy-process",
     "title": "EasyProcess",
     "tags": [
@@ -70,6 +56,20 @@
     "description_pt": "Sistema de gestão de processos de trabalho, gerenciamento de equipes e criação de fluxo de trabalho e gerenciamento de clientes de consultoria",
     "description_en": "Work process management system, team management, workflow creation, and consulting client management.",
     "url": "",
+    "order": 4
+  },
+  {
+    "id": "cnpj-search",
+    "title": "CNPJ Search",
+    "tags": [
+      "TypeScript",
+      "API",
+      "React"
+    ],
+    "image": "cnpjSearch.png",
+    "description_pt": "Sistema de pesquisa de empresas brasileiras pelo nº CNPJ. Encontre uma empresa, informações de contato e muito mais.",
+    "description_en": "A tool for querying data about Brazilian companies using their CNPJ. All the information you need about a company in one place.",
+    "url": "https://cnpj-pesquisar.netlify.app/",
     "order": 5
   },
   {
