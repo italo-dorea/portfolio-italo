@@ -131,18 +131,5 @@
     "url": "https://dmadvocacia.com.br/",
     "order": 9,
     "screenshot": "dmadvocacia-screenshot.png"
-  },
-  {
-    "id": "html-converter",
-    "title": "HTML Converter",
-    "tags": [
-      "JavaScript",
-      "Tooling"
-    ],
-    "image": "modelo-html-1.jpg",
-    "description_pt": "Ferramenta para auxiliar no dia a dia no conversão de conteúdo html e excel. Desenvolvi para ajudar em tarefas do cotidiano.",
-    "description_en": "An assistive tool that processes HTML content and converts it into standard HTML format.",
-    "url": "https://ifdc2308.github.io/htmlConverter/",
-    "order": 10
   }
 ]
