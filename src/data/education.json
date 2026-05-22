@@ -2,12 +2,18 @@
   {
     "id": "grad-ads",
     "type": "education",
-    "title_pt": "Tecnologia em Análise e Desenvolvimento de Sistemas",
+    "title_pt": "Análise e Desenvolvimento de Sistemas",
     "title_en": "Associate Degree in Systems Analysis and Development",
-    "institution": "Estácio",
+    "institution": "Estácio de Sá",
     "year": "2023 - 2026",
-    "url": "https://estacio.br/",
-    "skills": ["JavaScript", "TypeScript", "React", "Banco de Dados", "Engenharia de Software"],
+    "url": "https://consultadiploma.estacio.br/diploma/163.163.d3965c18053a",
+    "skills": [
+      "Engenharia de Software",
+      "Análise de dados",
+      "Banco de dados",
+      "Computação em nuvem",
+      "Cloud Computing"
+    ],
     "order": 1
   },
   {
@@ -18,7 +24,11 @@
     "institution": "Amazon Web Services (AWS)",
     "year": "2024",
     "url": "https://aws.amazon.com/certification/certified-cloud-practitioner/",
-    "skills": ["Cloud Computing", "AWS", "Infraestrutura"],
+    "skills": [
+      "Cloud Computing",
+      "AWS",
+      "Infraestrutura"
+    ],
     "order": 2
   }
 ]
