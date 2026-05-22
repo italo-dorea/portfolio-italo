@@ -26,7 +26,8 @@
     "description_pt": "Site da plataforma de redação Exito 1000, desenvolvimento de interfaces intuitivas, blog de postagens e SEO para conversão de usuários e posicionamento nos buscadores.",
     "description_en": "Exito 1000 writing platform, responsible for the development and maintenance of pages, as well as UI/UX improvements.",
     "url": "https://redacaoexito1000.com.br/",
-    "order": 2
+    "order": 2,
+    "screenshot": "exito100landingpage.png"
   },
   {
     "id": "gtap",
