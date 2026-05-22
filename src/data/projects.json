@@ -129,7 +129,8 @@
     "description_pt": "Site institucional de grande escritório de advocacia localizado em Salvador/BA.",
     "description_en": "Institutional website for a firm specializing in Tax and Business Law, based in Salvador.",
     "url": "https://dmadvocacia.com.br/",
-    "order": 9
+    "order": 9,
+    "screenshot": "dmadvocacia-screenshot.png"
   },
   {
     "id": "html-converter",
