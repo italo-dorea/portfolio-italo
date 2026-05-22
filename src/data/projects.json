@@ -85,7 +85,8 @@
     "description_pt": "Sistema facilitador para MEI's. Levantamento de requisitos e desenvolvimento da UI/UX e suas funcionalidades. Fluxo de caixa, fórum, postagens de notícias, etc.",
     "description_en": "System with tips and information, tax calculations and a forum on taxation for MEIs.",
     "url": "https://sefazfacilbrasil.com.br/",
-    "order": 6
+    "order": 6,
+    "screenshot": "sefazfacil-lp.png"
   },
   {
     "id": "a4-locadora",
