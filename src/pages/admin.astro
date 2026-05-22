@@ -1,0 +1,9 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import AdminPanel from "@/components/AdminPanel";
+import config from "@/config";
+---
+
+<Layout title={`Admin CMS | ${config.site.title}`}>
+  <AdminPanel client:only="react" />
+</Layout>

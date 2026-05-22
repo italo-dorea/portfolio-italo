@@ -1,0 +1,7 @@
+---
+import Page from "../../posts/[...page].astro";
+import { getStaticPaths as gsp } from "../../posts/[...page].astro";
+
+export const getStaticPaths = gsp;
+---
+<Page {...Astro.props} />

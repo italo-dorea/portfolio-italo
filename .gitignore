@@ -25,3 +25,10 @@ pnpm-debug.log*
 
 # pagefind
 public/pagefind
+
+# backups and Next.js artifacts
+.next/
+out/
+backup_next/
+temp_backup/
+astro-paper-clone/

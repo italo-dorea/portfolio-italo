@@ -2,14 +2,14 @@ import { defineAstroPaperConfig } from "./src/types/config";
 
 export default defineAstroPaperConfig({
   site: {
-    url: "https://astro-paper.pages.dev/",
-    title: "AstroPaper",
-    description: "A minimal, responsive and SEO-friendly Astro blog theme.",
-    author: "Sat Naing",
-    profile: "https://satna.ing",
+    url: "https://ifdc2308.github.io/portfolio-italo/",
+    title: "Ítalo Dórea",
+    description: "Portfólio profissional de Ítalo Dórea, Desenvolvedor e Analista de Softwares.",
+    author: "Ítalo Dórea",
+    profile: "https://github.com/ifdc2308",
     ogImage: "default-og.jpg",
-    lang: "en",
-    timezone: "Asia/Bangkok",
+    lang: "pt",
+    timezone: "America/Bahia",
     dir: "ltr",
   },
   posts: {
@@ -23,16 +23,15 @@ export default defineAstroPaperConfig({
     showArchives: true,
     showBackButton: true,
     editPost: {
-      enabled: true,
-      url: "https://github.com/satnaing/astro-paper/edit/main/",
+      enabled: false,
     },
     search: "pagefind",
   },
   socials: [
-    { name: "github",   url: "https://github.com/satnaing/astro-paper" },
-    { name: "x",        url: "https://x.com/username" },
-    { name: "linkedin", url: "https://www.linkedin.com/in/username/" },
-    { name: "mail",     url: "mailto:yourmail@gmail.com" },
+    { name: "github",   url: "https://github.com/ifdc2308" },
+    { name: "linkedin", url: "https://www.linkedin.com/in/italo-dorea/" },
+    { name: "instagram", url: "https://www.instagram.com/italo_dorea/" },
+    { name: "mail",     url: "mailto:italoiddev@gmail.com" },
   ],
   shareLinks: [
     { name: "whatsapp", url: "https://wa.me/?text=" },

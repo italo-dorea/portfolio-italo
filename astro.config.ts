@@ -17,18 +17,22 @@ import {
 import { transformerFileName } from "./src/utils/transformers/fileName";
 import config from "./astro-paper.config";
 
+import react from "@astrojs/react";
+
+const urlObj = new URL(config.site.url);
+const siteOrigin = urlObj.origin;
+const siteBase = urlObj.pathname.replace(/\/+$/, "") || undefined;
+
 export default defineConfig({
-  site: config.site.url,
-  integrations: [
-    mdx(),
-    sitemap({
-      filter: page =>
-        config.features?.showArchives !== false || !page.endsWith("/archives/"),
-    }),
-  ],
+  site: siteOrigin,
+  base: siteBase,
+  integrations: [mdx(), sitemap({
+    filter: page =>
+      config.features?.showArchives !== false || !page.endsWith("/archives/"),
+  }), react()],
   i18n: {
-    locales: ["en"],
-    defaultLocale: "en",
+    locales: ["pt", "en"],
+    defaultLocale: "pt",
     routing: {
       prefixDefaultLocale: false,
     },
@@ -48,7 +52,7 @@ export default defineConfig({
     },
   },
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss() as any],
   },
   fonts: [
     {

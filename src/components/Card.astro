@@ -10,7 +10,11 @@ type Props = {
 
 const { variant: Heading = "h2", id, data, filePath } = Astro.props;
 
-const { title, description, ...props } = data;
+const locale = Astro.currentLocale ?? "pt";
+const isPt = locale === "pt";
+const title = isPt ? data.title_pt : data.title_en;
+const description = isPt ? data.summary_pt : data.summary_en;
+const props = data;
 ---
 
 <li class="my-6">

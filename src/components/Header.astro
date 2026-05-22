@@ -27,6 +27,12 @@ const pathWithoutTrailingSlash =
 
 const currentPath = stripLocale(pathWithoutTrailingSlash, locale);
 
+const otherLocale = locale === "pt" ? "en" : "pt";
+const otherLocaleUrl = getRelativeLocaleUrl(
+  otherLocale,
+  currentPath === "/" ? "" : currentPath.replace(/^\//, "")
+);
+
 const isActive = (path: string) => {
   const currentPathArray = currentPath.split("/").filter(p => p.trim());
   const pathArray = path.split("/").filter(p => p.trim());
@@ -98,6 +104,14 @@ const isActive = (path: string) => {
             {t.nav.about}
           </a>
         </li>
+        <li class="col-span-2">
+          <a
+            href={getRelativeLocaleUrl(locale, "admin")}
+            class:list={{ "active-nav": isActive("/admin") }}
+          >
+            Admin
+          </a>
+        </li>
         {
           features.showArchives && (
             <li class="col-span-2">
@@ -143,6 +157,15 @@ const isActive = (path: string) => {
             </li>
           )
         }
+        <li class="col-span-1 flex items-center justify-center">
+          <a
+            href={otherLocaleUrl}
+            class="focus-outline hover:text-accent font-semibold p-2"
+            aria-label={`Switch to ${otherLocale === "pt" ? "Português" : "English"}`}
+          >
+            {otherLocale.toUpperCase()}
+          </a>
+        </li>
         {
           features.lightAndDarkMode && (
             <li class="col-span-1 flex items-center justify-center">

@@ -1,0 +1,69 @@
+---
+const locale = Astro.currentLocale ?? "pt";
+const isPt = locale === "pt";
+
+const t = (pt: string, en: string) => (isPt ? pt : en);
+
+interface Skill {
+  name: string;
+  icon: string;
+  category: "frontend" | "backend" | "design" | "cms";
+}
+
+const skills: Skill[] = [
+  { name: "JavaScript", icon: "/assets/icons/javascript.svg", category: "frontend" },
+  { name: "TypeScript", icon: "/assets/icons/typescript.svg", category: "frontend" },
+  { name: "React", icon: "/assets/icons/react.svg", category: "frontend" },
+  { name: "Node.js", icon: "/assets/icons/node.svg", category: "backend" },
+  { name: "HTML5", icon: "/assets/icons/html.svg", category: "frontend" },
+  { name: "CSS3", icon: "/assets/icons/css.svg", category: "frontend" },
+  { name: "Figma", icon: "/assets/icons/figma.svg", category: "design" },
+  { name: "WordPress", icon: "/assets/icons/wordpress.svg", category: "cms" },
+];
+
+const title = t("Minha Stack", "My Stack");
+const description = t(
+  "As principais tecnologias e ferramentas que utilizo no meu dia a dia profissional.",
+  "The primary technologies and tools I use in my daily professional work."
+);
+---
+
+<section id="stack" class="py-20 bg-background text-foreground relative overflow-hidden border-t border-border">
+  <div class="max-w-6xl mx-auto px-4 md:px-8 relative z-10">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-foreground mb-4">
+        {title}
+      </h2>
+      <div class="h-0.5 w-16 bg-accent mx-auto"></div>
+      <p class="text-muted-foreground mt-4 max-w-md mx-auto">
+        {description}
+      </p>
+    </div>
+
+    {/* Skills grid */}
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+      {skills.map((skill) => (
+        <div
+          class="relative p-6 rounded-2xl bg-muted/40 border border-border hover:border-accent flex flex-col items-center justify-center gap-4 transition-all duration-300 shadow-sm group hover:shadow-md hover:-translate-y-1 cursor-default"
+        >
+          {/* Highlight background on hover */}
+          <div class="absolute inset-0 rounded-2xl bg-foreground/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+          
+          <div class="relative w-16 h-16 flex items-center justify-center bg-background rounded-xl p-3 border border-border group-hover:border-accent transition-colors duration-300">
+            <img
+              src={skill.icon}
+              alt={`${skill.name} icon`}
+              width="40"
+              height="40"
+              class="object-contain filter group-hover:scale-110 transition-transform duration-300"
+            />
+          </div>
+          <span class="text-muted-foreground group-hover:text-foreground font-medium text-sm transition-colors duration-300">
+            {skill.name}
+          </span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+

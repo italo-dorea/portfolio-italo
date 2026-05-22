@@ -1,0 +1,36 @@
+name: Deploy Astro Portfolio to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Executes when changes are pushed to main
+
+permissions:
+  contents: write # Required for deploying to gh-pages branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build and Export
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist # The directory Astro builds static files to
+          branch: gh-pages # The branch the site is deployed to
+          clean: true
