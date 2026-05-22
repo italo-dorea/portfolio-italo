@@ -2,7 +2,7 @@ import { defineAstroPaperConfig } from "./src/types/config";
 
 export default defineAstroPaperConfig({
   site: {
-    url: "https://italo-dorea.github.io/portfolio-italo/",
+    url: "https://portfolio-italodorea.netlify.app/",
     title: "Ítalo Dórea",
     description: "Portfólio profissional de Ítalo Dórea, Desenvolvedor e Analista de Softwares.",
     author: "Ítalo Dórea",
