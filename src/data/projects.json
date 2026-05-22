@@ -59,6 +59,20 @@
     "order": 4
   },
   {
+    "id": "easy-process",
+    "title": "EasyProcess",
+    "tags": [
+      "produtividade",
+      "Saas"
+    ],
+    "image": "easyprocess.png",
+    "screenshot": "",
+    "description_pt": "Sistema de gestão de processos de trabalho, gerenciamento de equipes e criação de fluxo de trabalho e gerenciamento de clientes de consultoria",
+    "description_en": "Work process management system, team management, workflow creation, and consulting client management.",
+    "url": "",
+    "order": 5
+  },
+  {
     "id": "foco-na-reforma",
     "title": "Comunidade Foco na reforma",
     "tags": [
@@ -71,20 +85,6 @@
     "description_pt": "Site da comunidade de discussões sobre a reforma tributária no brasil. Desenvolvimento do site e implementação de boas práticas para SEO e scores nos buscadores.",
     "description_en": "Discussion community website on Brazilian tax reform. Designed for SEO and optimal search performance.",
     "url": "https://comunidadefoconareforma.opensolucoestributarias.com.br/",
-    "order": 5
-  },
-  {
-    "id": "easy-process",
-    "title": "EasyProcess",
-    "tags": [
-      "produtividade",
-      "Saas"
-    ],
-    "image": "easyprocess.png",
-    "screenshot": "",
-    "description_pt": "Sistema de gestão de processos de trabalho, gerenciamento de equipes e criação de fluxo de trabalho e gerenciamento de clientes de consultoria",
-    "description_en": "Work process management system, team management, workflow creation, and consulting client management.",
-    "url": "",
     "order": 6
   },
   {
