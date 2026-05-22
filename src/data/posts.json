@@ -9,7 +9,9 @@
     "content_en": "I decided to update my personal portfolio to better reflect my professional profile and use modern technologies. Migrating from a simple static HTML/CSS to **Next.js** and **Tailwind CSS** brought several advantages:\n\n1. **Performance**: Next.js generates lightweight static pages using React.\n2. **Maintainability**: Now my projects and blog posts are loaded from JSON files, keeping the code clean and reusable.\n3. **Admin Dashboard**: I created a client-side admin interface connected directly to the GitHub API. I can manage my projects and write posts directly in the browser!\n4. **SEO Optimized**: With static blog pages generated at build time (`/blog/id`), search engines like Google can crawl and index all content.\n\n### The Migration Process\n\nThe migration involved modularizing the interface into reusable React components and styling using Tailwind CSS utility classes. Deployment remains on GitHub Pages 100% free of charge!\n\nIf you want to learn more about the admin panel architecture, stay tuned for upcoming posts!",
     "date": "2026-05-21",
     "tags": ["Next.js", "TailwindCSS", "React", "JAMstack"],
-    "published": true
+    "published": true,
+    "category": "Desenvolvimento",
+    "order": 1
   },
   {
     "id": "boas-praticas-seo-desenvolvimento-web",
@@ -21,6 +23,8 @@
     "content_en": "Many developers focus only on website aesthetics and functionality, but **SEO (Search Engine Optimization)** is what ensures people actually find your work. Here are some essential practices:\n\n### 1. Semantic HTML\nUse the correct tags: `<header>`, `<nav>`, `<main>`, `<article>`, `<section>`, `<footer>` and the correct heading hierarchy (`<h1>` to `<h6>`). This helps search engine bots understand the importance of each content block.\n\n### 2. Meta Tags and Open Graph\nAlways set descriptive titles and concise meta descriptions. Add Open Graph tags to improve the look of links when shared on social media.\n\n### 3. Loading Speed (Core Web Vitals)\nGoogle penalizes slow sites. Optimize images, implement Lazy Loading, and use modern frameworks (such as Next.js with Static Export) to deliver fast pre-rendered pages.\n\n### 4. Friendly Links and Accessibility (Image Alt)\nEnsure all images have a descriptive text in the `alt` attribute. This not only improves accessibility for screen readers but also helps with indexing in Google Images.\n\nMastering these techniques makes you a much more complete and valued development professional in the market!",
     "date": "2026-05-15",
     "tags": ["SEO", "WebDev", "HTML", "Front-end"],
-    "published": true
+    "published": true,
+    "category": "SEO",
+    "order": 2
   }
 ]

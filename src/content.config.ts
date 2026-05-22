@@ -17,6 +17,9 @@ const posts = defineCollection({
     date: z.coerce.date(),
     tags: z.array(z.string()).default([]),
     published: z.boolean().default(true),
+    category: z.string().optional(),
+    order: z.number().optional(),
+    image: z.string().optional(),
   }).transform(data => ({
     ...data,
     author: "",
@@ -26,7 +29,7 @@ const posts = defineCollection({
     modDatetime: undefined as Date | undefined,
     featured: false,
     draft: !data.published,
-    ogImage: undefined as string | undefined,
+    ogImage: data.image ? `/assets/${data.image}` : undefined,
     canonicalURL: undefined as string | undefined,
     timezone: undefined as string | undefined,
     hideEditPost: undefined as boolean | undefined,

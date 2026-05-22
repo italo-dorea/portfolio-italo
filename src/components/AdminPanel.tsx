@@ -26,12 +26,15 @@ interface Post {
   date: string;
   tags: string[];
   published: boolean;
+  category?: string;
+  order?: number;
+  image?: string;
 }
 
 export default function AdminPanel() {
   // Authentication & Configuration State
   const [token, setToken] = useState("");
-  const [owner, setOwner] = useState("ifdc2308");
+  const [owner, setOwner] = useState("italo-dorea");
   const [repo, setRepo] = useState("portfolio-italo");
   const [branch, setBranch] = useState("main");
   const [isConnected, setIsConnected] = useState(false);
@@ -54,12 +57,19 @@ export default function AdminPanel() {
   const [uploadImageFile, setUploadImageFile] = useState<File | null>(null);
   const [uploadImageBase64, setUploadImageBase64] = useState<string>("");
 
+  // Category management state
+  const [newCategoryName, setNewCategoryName] = useState("");
+  const [showNewCategoryInput, setShowNewCategoryInput] = useState(false);
+
+  const existingCategories = Array.from(new Set(posts.map((p) => p.category).filter(Boolean))) as string[];
+  const existingTags = Array.from(new Set(posts.flatMap((p) => p.tags || []))).filter(Boolean) as string[];
+
   useEffect(() => {
-    // Load credentials from localStorage
-    const savedToken = localStorage.getItem("gh_token");
-    const savedOwner = localStorage.getItem("gh_owner");
-    const savedRepo = localStorage.getItem("gh_repo");
-    const savedBranch = localStorage.getItem("gh_branch");
+    // Load credentials from localStorage or environment variables (client-side)
+    const savedToken = localStorage.getItem("gh_token") || (import.meta.env.PUBLIC_GITHUB_TOKEN as string) || "";
+    const savedOwner = localStorage.getItem("gh_owner") || "italo-dorea";
+    const savedRepo = localStorage.getItem("gh_repo") || "portfolio-italo";
+    const savedBranch = localStorage.getItem("gh_branch") || "main";
 
     if (savedToken) setToken(savedToken);
     if (savedOwner) setOwner(savedOwner);
@@ -67,7 +77,7 @@ export default function AdminPanel() {
     if (savedBranch) setBranch(savedBranch);
 
     if (savedToken && savedOwner && savedRepo) {
-      testConnection(savedToken, savedOwner, savedRepo, savedBranch || "main");
+      testConnection(savedToken, savedOwner, savedRepo, savedBranch);
     }
   }, []);
 
@@ -147,7 +157,13 @@ export default function AdminPanel() {
         const data = await postsRes.json();
         setPostsSha(data.sha);
         const content = decodeBase64(data.content);
-        setPosts(JSON.parse(content));
+        const parsed = JSON.parse(content) as Post[];
+        // Assign default orders if missing and sort by order ascending
+        const normalized = parsed.map((p, idx) => ({
+          ...p,
+          order: typeof p.order === "number" ? p.order : idx + 1,
+        })).sort((a, b) => (a.order || 0) - (b.order || 0));
+        setPosts(normalized);
       }
     } catch (err) {
       setStatusMessage({ type: "error", text: "Erro ao carregar os dados do repositório." });
@@ -229,15 +245,17 @@ export default function AdminPanel() {
   };
 
   // Image Upload helper
-  const handleImageFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageFileChange = (e: React.ChangeEvent<HTMLInputElement>, target: "project" | "post") => {
     const file = e.target.files?.[0];
     if (file) {
       setUploadImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setUploadImageBase64(reader.result as string);
-        if (editingProject) {
+        if (target === "project" && editingProject) {
           setEditingProject({ ...editingProject, image: file.name });
+        } else if (target === "post" && editingPost) {
+          setEditingPost({ ...editingPost, image: file.name });
         }
       };
       reader.readAsDataURL(file);
@@ -353,6 +371,16 @@ export default function AdminPanel() {
     setIsLoading(true);
     setStatusMessage({ type: "info", text: "Salvando postagens..." });
     try {
+      // If we have an image file uploading, upload it first
+      if (uploadImageFile && uploadImageBase64) {
+        const uploadSuccess = await uploadImageToGithub(uploadImageFile.name, uploadImageBase64);
+        if (!uploadSuccess) {
+          throw new Error("Falha no upload da imagem.");
+        }
+        setUploadImageFile(null);
+        setUploadImageBase64("");
+      }
+
       const postsStr = JSON.stringify(newPosts, null, 2);
       const res = await commitFile(
         "src/data/posts.json",
@@ -371,8 +399,8 @@ export default function AdminPanel() {
       } else {
         setStatusMessage({ type: "error", text: "Erro ao salvar as postagens no GitHub." });
       }
-    } catch (err) {
-      setStatusMessage({ type: "error", text: "Erro de rede ao salvar postagens." });
+    } catch (err: any) {
+      setStatusMessage({ type: "error", text: err.message || "Erro de rede ao salvar postagens." });
     } finally {
       setIsLoading(false);
     }
@@ -381,6 +409,8 @@ export default function AdminPanel() {
   const handleEditPost = (post: Post) => {
     setEditingPost({ ...post });
     setIsCreatingNew(false);
+    setShowNewCategoryInput(false);
+    setNewCategoryName("");
   };
 
   const handleAddNewPost = () => {
@@ -395,8 +425,12 @@ export default function AdminPanel() {
       date: new Date().toISOString().split("T")[0],
       tags: [],
       published: true,
+      category: "",
+      order: posts.length + 1,
     });
     setIsCreatingNew(true);
+    setShowNewCategoryInput(false);
+    setNewCategoryName("");
   };
 
   const handlePostFormSubmit = (e: React.FormEvent) => {
@@ -413,14 +447,38 @@ export default function AdminPanel() {
       );
     }
 
+    // Ensure order is normalized
+    updatedPosts = updatedPosts.map((p, idx) => ({
+      ...p,
+      order: typeof p.order === "number" ? p.order : idx + 1,
+    }));
+
     savePosts(updatedPosts);
   };
 
   const handleDeletePost = (postId: string) => {
     if (confirm("Tem certeza que deseja remover esta postagem?")) {
-      const updated = posts.filter((p) => p.id !== postId);
+      const updated = posts
+        .filter((p) => p.id !== postId)
+        .map((p, idx) => ({ ...p, order: idx + 1 }));
       savePosts(updated);
     }
+  };
+
+  const movePost = (index: number, direction: "up" | "down") => {
+    const updated = [...posts];
+    if (direction === "up" && index > 0) {
+      const temp = updated[index];
+      updated[index] = updated[index - 1];
+      updated[index - 1] = temp;
+    } else if (direction === "down" && index < updated.length - 1) {
+      const temp = updated[index];
+      updated[index] = updated[index + 1];
+      updated[index + 1] = temp;
+    }
+
+    const reordered = updated.map((p, idx) => ({ ...p, order: idx + 1 }));
+    savePosts(reordered);
   };
 
   return (
@@ -770,7 +828,7 @@ export default function AdminPanel() {
                           <input
                             type="file"
                             accept="image/*"
-                            onChange={handleImageFileChange}
+                            onChange={(e) => handleImageFileChange(e, "project")}
                             className="hidden"
                           />
                         </label>
@@ -844,20 +902,36 @@ export default function AdminPanel() {
                     <p className="text-slate-500 text-center py-8">Nenhuma postagem cadastrada.</p>
                   ) : (
                     <div className="space-y-4">
-                      {posts.map((post) => (
+                      {posts.map((post, idx) => (
                         <div
                           key={post.id}
-                          className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 p-4 rounded-xl bg-slate-950 border border-slate-850 hover:border-slate-800 transition-colors"
+                          className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 p-4 rounded-xl bg-slate-955 border border-slate-855 hover:border-slate-800 transition-colors"
                         >
                           <div>
                             <span className="text-slate-500 text-xs font-semibold block mb-1">
-                              {post.date} • {post.published ? "PUBLICADO" : "RASCUNHO"}
+                              ORDEM #{post.order || (idx + 1)} • {post.date} • {post.category || "Sem Categoria"} • {post.published ? "PUBLICADO" : "RASCUNHO"}
                             </span>
                             <h3 className="font-bold text-white text-base">{post.title_pt}</h3>
                             <span className="text-slate-400 text-xs line-clamp-1">{post.tags.join(", ")}</span>
                           </div>
                           
                           <div className="flex items-center gap-2 self-end sm:self-center">
+                            <button
+                              onClick={() => movePost(idx, "up")}
+                              disabled={idx === 0 || isLoading}
+                              className="p-2 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-slate-400 hover:text-white transition-all disabled:opacity-30"
+                              title="Subir"
+                            >
+                              <ArrowUp size={16} />
+                            </button>
+                            <button
+                              onClick={() => movePost(idx, "down")}
+                              disabled={idx === posts.length - 1 || isLoading}
+                              className="p-2 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-slate-400 hover:text-white transition-all disabled:opacity-30"
+                              title="Descer"
+                            >
+                              <ArrowDown size={16} />
+                            </button>
                             <button
                               onClick={() => handleEditPost(post)}
                               disabled={isLoading}
@@ -962,6 +1036,70 @@ export default function AdminPanel() {
                       </div>
                     </div>
 
+                    {/* Categoria */}
+                    <div>
+                      <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        Categoria
+                      </label>
+                      {!showNewCategoryInput ? (
+                        <div className="flex gap-2">
+                          <select
+                            value={editingPost.category || ""}
+                            onChange={(e) => {
+                              if (e.target.value === "__new__") {
+                                setShowNewCategoryInput(true);
+                              } else {
+                                setEditingPost({ ...editingPost, category: e.target.value });
+                              }
+                            }}
+                            className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          >
+                            <option value="">Sem Categoria</option>
+                            {existingCategories.map((cat) => (
+                              <option key={cat} value={cat}>
+                                {cat}
+                              </option>
+                            ))}
+                            <option value="__new__">+ Adicionar Nova Categoria...</option>
+                          </select>
+                        </div>
+                      ) : (
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            placeholder="Nome da nova categoria"
+                            value={newCategoryName}
+                            onChange={(e) => setNewCategoryName(e.target.value)}
+                            className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (newCategoryName.trim()) {
+                                setEditingPost({ ...editingPost, category: newCategoryName.trim() });
+                                setNewCategoryName("");
+                                setShowNewCategoryInput(false);
+                              }
+                            }}
+                            className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-colors"
+                          >
+                            Confirmar
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setShowNewCategoryInput(false);
+                              setNewCategoryName("");
+                            }}
+                            className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white text-xs transition-colors"
+                          >
+                            Cancelar
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Tags */}
                     <div>
                       <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
                         Tags (separadas por vírgula)
@@ -970,9 +1108,74 @@ export default function AdminPanel() {
                         type="text"
                         value={editingPost.tags?.join(", ") || ""}
                         onChange={(e) => setEditingPost({ ...editingPost, tags: e.target.value.split(",").map((t) => t.trim()).filter(Boolean) })}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors mb-3"
                         placeholder="ex: React, SEO, CSS"
                       />
+                      {existingTags.length > 0 && (
+                        <div className="mt-2">
+                          <span className="text-slate-500 text-xs block mb-1.5">Tags sugeridas (clique para adicionar/remover):</span>
+                          <div className="flex flex-wrap gap-1.5">
+                            {existingTags.map((tag) => {
+                              const isSelected = editingPost.tags?.includes(tag);
+                              return (
+                                <button
+                                  key={tag}
+                                  type="button"
+                                  onClick={() => {
+                                    const currentTags = editingPost.tags || [];
+                                    let updatedTags;
+                                    if (isSelected) {
+                                      updatedTags = currentTags.filter((t) => t !== tag);
+                                    } else {
+                                      updatedTags = [...currentTags, tag];
+                                    }
+                                    setEditingPost({ ...editingPost, tags: updatedTags });
+                                  }}
+                                  className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
+                                    isSelected
+                                      ? "bg-blue-600 text-white"
+                                      : "bg-slate-950 border border-slate-850 text-slate-400 hover:text-white"
+                                  }`}
+                                >
+                                  {tag}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Imagem do Post */}
+                    <div className="p-4 rounded-xl bg-slate-950 border border-slate-850 grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="md:col-span-2">
+                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                          Nome do Arquivo de Imagem do Post (Opcional)
+                        </label>
+                        <input
+                          type="text"
+                          value={editingPost.image || ""}
+                          onChange={(e) => setEditingPost({ ...editingPost, image: e.target.value })}
+                          className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-850 text-slate-100 text-sm focus:outline-none mb-3"
+                          placeholder="ex: my-post-image.png"
+                        />
+                        <span className="text-slate-550 text-xxs block">
+                          Ao fazer upload, este nome será preenchido automaticamente com o arquivo selecionado.
+                        </span>
+                      </div>
+                      
+                      <div className="flex flex-col justify-end">
+                        <label className="w-full px-4 py-3.5 rounded-xl border border-dashed border-slate-800 hover:border-blue-500 flex items-center justify-center gap-2 cursor-pointer text-xs font-semibold text-slate-400 hover:text-white transition-all bg-slate-900">
+                          <Upload size={16} />
+                          Upload de Imagem
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => handleImageFileChange(e, "post")}
+                            className="hidden"
+                          />
+                        </label>
+                      </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

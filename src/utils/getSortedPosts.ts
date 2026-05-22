@@ -10,13 +10,19 @@ import { postFilter } from "./postFilter";
 export function getSortedPosts(posts: CollectionEntry<"posts">[]) {
   return posts
     .filter(postFilter)
-    .sort(
-      (a, b) =>
+    .sort((a, b) => {
+      const orderA = a.data.order ?? 9999;
+      const orderB = b.data.order ?? 9999;
+      if (orderA !== orderB) {
+        return orderA - orderB;
+      }
+      return (
         Math.floor(
           new Date(b.data.modDatetime ?? b.data.pubDatetime).getTime() / 1000
         ) -
         Math.floor(
           new Date(a.data.modDatetime ?? a.data.pubDatetime).getTime() / 1000
         )
-    );
+      );
+    });
 }

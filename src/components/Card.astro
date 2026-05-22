@@ -30,6 +30,13 @@ const props = data;
       {title}
     </Heading>
   </a>
-  <Datetime {...props} />
+  <div class="flex items-center gap-x-3 flex-wrap my-1.5">
+    <Datetime {...props} />
+    {data.category && (
+      <span class="text-xs font-medium px-2.5 py-0.5 rounded border border-foreground/10 bg-foreground/5 text-muted-foreground uppercase tracking-wider">
+        {data.category}
+      </span>
+    )}
+  </div>
   <p>{description}</p>
 </li>
