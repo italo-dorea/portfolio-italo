@@ -112,6 +112,19 @@
     "order": 8
   },
   {
+    "id": "html-converter",
+    "title": "HTML Converter",
+    "tags": [
+      "JavaScript",
+      "Tooling"
+    ],
+    "image": "modelo-html-1.jpg",
+    "description_pt": "Ferramenta para auxiliar no dia a dia no conversão de conteúdo html e excel. Desenvolvi para ajudar em tarefas do cotidiano.",
+    "description_en": "An assistive tool that processes HTML content and converts it into standard HTML format.",
+    "url": "https://ifdc2308.github.io/htmlConverter/",
+    "order": 9
+  },
+  {
     "id": "locmais-ba",
     "title": "LocMais BA",
     "tags": [
@@ -123,19 +136,6 @@
     "description_pt": "Site corporativo e catálogo digital para a LocMais, empresa especializada em locação de equipamentos para a construção civil na Bahia. Desenvolvimento do site, otimização de performance e SEO.",
     "description_en": "Corporate website and digital catalog for LocMais, a company specializing in equipment rental for civil construction in Bahia. Website development, performance optimization, and SEO.",
     "url": "https://www.locmaisba.com.br/",
-    "order": 9
-  },
-  {
-    "id": "html-converter",
-    "title": "HTML Converter",
-    "tags": [
-      "JavaScript",
-      "Tooling"
-    ],
-    "image": "modelo-html-1.jpg",
-    "description_pt": "Ferramenta para auxiliar no dia a dia no conversão de conteúdo html e excel. Desenvolvi para ajudar em tarefas do cotidiano.",
-    "description_en": "An assistive tool that processes HTML content and converts it into standard HTML format.",
-    "url": "https://ifdc2308.github.io/htmlConverter/",
     "order": 10
   }
 ]
