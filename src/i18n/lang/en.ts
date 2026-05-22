@@ -32,6 +32,11 @@ export default {
     featured: "Featured",
     recentPosts: "Recent Posts",
     allPosts: "All Posts",
+    educationTitle: "Education & Certifications",
+    educationSubtitle: "My academic background, specialization courses, and certifications obtained.",
+    academicTitle: "Academic Background",
+    certificationsTitle: "Courses & Certifications",
+    viewCredential: "View Credential",
   },
   footer: {
     copyright: "Copyright",

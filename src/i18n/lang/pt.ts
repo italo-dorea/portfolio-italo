@@ -32,6 +32,11 @@ export default {
     featured: "Destaques",
     recentPosts: "Posts Recentes",
     allPosts: "Todos os Posts",
+    educationTitle: "Formação Acadêmica & Certificados",
+    educationSubtitle: "Minha trajetória acadêmica, cursos de especialização e certificações obtidas.",
+    academicTitle: "Formação Acadêmica",
+    certificationsTitle: "Cursos & Certificações",
+    viewCredential: "Ver Credencial",
   },
   footer: {
     copyright: "Copyright",

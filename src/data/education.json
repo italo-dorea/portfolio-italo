@@ -1,0 +1,24 @@
+[
+  {
+    "id": "grad-ads",
+    "type": "education",
+    "title_pt": "Tecnologia em Análise e Desenvolvimento de Sistemas",
+    "title_en": "Associate Degree in Systems Analysis and Development",
+    "institution": "Estácio",
+    "year": "2023 - 2026",
+    "url": "https://estacio.br/",
+    "skills": ["JavaScript", "TypeScript", "React", "Banco de Dados", "Engenharia de Software"],
+    "order": 1
+  },
+  {
+    "id": "cert-aws",
+    "type": "certification",
+    "title_pt": "AWS Certified Cloud Practitioner",
+    "title_en": "AWS Certified Cloud Practitioner",
+    "institution": "Amazon Web Services (AWS)",
+    "year": "2024",
+    "url": "https://aws.amazon.com/certification/certified-cloud-practitioner/",
+    "skills": ["Cloud Computing", "AWS", "Infraestrutura"],
+    "order": 2
+  }
+]

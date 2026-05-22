@@ -1,25 +1,19 @@
 ---
+import skillsData from "../data/skills.json";
+
 const locale = Astro.currentLocale ?? "pt";
 const isPt = locale === "pt";
 
 const t = (pt: string, en: string) => (isPt ? pt : en);
 
 interface Skill {
+  id: string;
   name: string;
   icon: string;
-  category: "frontend" | "backend" | "design" | "cms";
+  category: "frontend" | "backend" | "design" | "cms" | "other";
 }
 
-const skills: Skill[] = [
-  { name: "JavaScript", icon: "/assets/icons/javascript.svg", category: "frontend" },
-  { name: "TypeScript", icon: "/assets/icons/typescript.svg", category: "frontend" },
-  { name: "React", icon: "/assets/icons/react.svg", category: "frontend" },
-  { name: "Node.js", icon: "/assets/icons/node.svg", category: "backend" },
-  { name: "HTML5", icon: "/assets/icons/html.svg", category: "frontend" },
-  { name: "CSS3", icon: "/assets/icons/css.svg", category: "frontend" },
-  { name: "Figma", icon: "/assets/icons/figma.svg", category: "design" },
-  { name: "WordPress", icon: "/assets/icons/wordpress.svg", category: "cms" },
-];
+const skills = skillsData as Skill[];
 
 const title = t("Minha Stack", "My Stack");
 const description = t(

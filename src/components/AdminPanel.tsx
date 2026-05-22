@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { 
   Lock, Settings, Plus, Trash2, ArrowUp, ArrowDown, Edit2, 
-  Save, RefreshCw, LogOut, FileText, Briefcase, Eye, Upload 
+  Save, RefreshCw, LogOut, FileText, Briefcase, Eye, Upload,
+  GraduationCap, User, Code
 } from "lucide-react";
 
 interface Project {
@@ -9,6 +10,7 @@ interface Project {
   title: string;
   tags: string[];
   image: string;
+  screenshot?: string;
   description_pt: string;
   description_en: string;
   url: string;
@@ -31,6 +33,34 @@ interface Post {
   image?: string;
 }
 
+interface Education {
+  id: string;
+  type: "education" | "certification";
+  title_pt: string;
+  title_en: string;
+  institution: string;
+  year: string;
+  url?: string;
+  skills: string[];
+  order: number;
+}
+
+interface Skill {
+  id: string;
+  name: string;
+  icon: string;
+  category: "frontend" | "backend" | "design" | "cms" | "other";
+}
+
+interface Profile {
+  name: string;
+  image: string;
+  subtitle_pt: string;
+  subtitle_en: string;
+  bio_pt: string;
+  bio_en: string;
+}
+
 export default function AdminPanel() {
   // Authentication & Configuration State
   const [token, setToken] = useState("");
@@ -44,18 +74,33 @@ export default function AdminPanel() {
   // Data State
   const [projects, setProjects] = useState<Project[]>([]);
   const [posts, setPosts] = useState<Post[]>([]);
+  const [education, setEducation] = useState<Education[]>([]);
+  const [skills, setSkills] = useState<Skill[]>([]);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [projectsSha, setProjectsSha] = useState("");
   const [postsSha, setPostsSha] = useState("");
-  const [activeTab, setActiveTab] = useState<"projects" | "posts" | "settings">("projects");
+  const [educationSha, setEducationSha] = useState("");
+  const [skillsSha, setSkillsSha] = useState("");
+  const [profileSha, setProfileSha] = useState("");
+  const [activeTab, setActiveTab] = useState<"projects" | "posts" | "education" | "skills" | "profile" | "settings">("projects");
 
   // Editing Forms State
   const [editingProject, setEditingProject] = useState<Partial<Project> | null>(null);
   const [editingPost, setEditingPost] = useState<Partial<Post> | null>(null);
+  const [editingEducation, setEditingEducation] = useState<Partial<Education> | null>(null);
+  const [editingSkill, setEditingSkill] = useState<Partial<Skill> | null>(null);
+  const [editingProfile, setEditingProfile] = useState<Partial<Profile> | null>(null);
   const [isCreatingNew, setIsCreatingNew] = useState(false);
 
   // File Upload State
   const [uploadImageFile, setUploadImageFile] = useState<File | null>(null);
   const [uploadImageBase64, setUploadImageBase64] = useState<string>("");
+  const [uploadScreenshotFile, setUploadScreenshotFile] = useState<File | null>(null);
+  const [uploadScreenshotBase64, setUploadScreenshotBase64] = useState<string>("");
+  const [uploadSkillIconFile, setUploadSkillIconFile] = useState<File | null>(null);
+  const [uploadSkillIconBase64, setUploadSkillIconBase64] = useState<string>("");
+  const [uploadProfileImgFile, setUploadProfileImgFile] = useState<File | null>(null);
+  const [uploadProfileImgBase64, setUploadProfileImgBase64] = useState<string>("");
 
   // Category management state
   const [newCategoryName, setNewCategoryName] = useState("");
@@ -126,6 +171,10 @@ export default function AdminPanel() {
     setIsConnected(false);
     setProjects([]);
     setPosts([]);
+    setEducation([]);
+    setSkills([]);
+    setProfile(null);
+    setEditingProfile(null);
     setStatusMessage({ type: "info", text: "Desconectado do painel administrativo." });
   };
 
@@ -164,6 +213,67 @@ export default function AdminPanel() {
           order: typeof p.order === "number" ? p.order : idx + 1,
         })).sort((a, b) => (a.order || 0) - (b.order || 0));
         setPosts(normalized);
+      }
+
+      // Fetch education.json
+      try {
+        const educationRes = await fetch(
+          `https://api.github.com/repos/${own}/${rep}/contents/src/data/education.json?ref=${br}`,
+          {
+            headers: { Authorization: `token ${tok}` },
+          }
+        );
+        if (educationRes.ok) {
+          const data = await educationRes.json();
+          setEducationSha(data.sha);
+          const content = decodeBase64(data.content);
+          const parsed = JSON.parse(content) as Education[];
+          const normalized = parsed.map((e, idx) => ({
+            ...e,
+            order: typeof e.order === "number" ? e.order : idx + 1,
+          })).sort((a, b) => (a.order || 0) - (b.order || 0));
+          setEducation(normalized);
+        }
+      } catch (err) {
+        console.error("Erro ao carregar education.json:", err);
+      }
+
+      // Fetch skills.json
+      try {
+        const skillsRes = await fetch(
+          `https://api.github.com/repos/${own}/${rep}/contents/src/data/skills.json?ref=${br}`,
+          {
+            headers: { Authorization: `token ${tok}` },
+          }
+        );
+        if (skillsRes.ok) {
+          const data = await skillsRes.json();
+          setSkillsSha(data.sha);
+          const content = decodeBase64(data.content);
+          setSkills(JSON.parse(content));
+        }
+      } catch (err) {
+        console.error("Erro ao carregar skills.json:", err);
+      }
+
+      // Fetch profile.json
+      try {
+        const profileRes = await fetch(
+          `https://api.github.com/repos/${own}/${rep}/contents/src/data/profile.json?ref=${br}`,
+          {
+            headers: { Authorization: `token ${tok}` },
+          }
+        );
+        if (profileRes.ok) {
+          const data = await profileRes.json();
+          setProfileSha(data.sha);
+          const content = decodeBase64(data.content);
+          const parsed = JSON.parse(content) as Profile;
+          setProfile(parsed);
+          setEditingProfile(parsed);
+        }
+      } catch (err) {
+        console.error("Erro ao carregar profile.json:", err);
       }
     } catch (err) {
       setStatusMessage({ type: "error", text: "Erro ao carregar os dados do repositório." });
@@ -208,10 +318,10 @@ export default function AdminPanel() {
   };
 
   // Commit dynamic image upload
-  const uploadImageToGithub = async (fileName: string, base64Content: string) => {
+  const uploadImageToGithub = async (fileName: string, base64Content: string, folder: string = "public/assets") => {
     // Check if image already exists
     const checkRes = await fetch(
-      `https://api.github.com/repos/${owner}/${repo}/contents/public/assets/${fileName}?ref=${branch}`,
+      `https://api.github.com/repos/${owner}/${repo}/contents/${folder}/${fileName}?ref=${branch}`,
       {
         headers: { Authorization: `token ${token}` },
       }
@@ -226,7 +336,7 @@ export default function AdminPanel() {
     const cleanBase64 = base64Content.split(",")[1] || base64Content;
 
     const response = await fetch(
-      `https://api.github.com/repos/${owner}/${repo}/contents/public/assets/${fileName}`,
+      `https://api.github.com/repos/${owner}/${repo}/contents/${folder}/${fileName}`,
       {
         method: "PUT",
         headers: {
@@ -234,7 +344,7 @@ export default function AdminPanel() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          message: `Upload image: ${fileName}`,
+          message: `Upload image: ${fileName} to ${folder}`,
           content: cleanBase64,
           sha: sha,
           branch: branch,
@@ -262,6 +372,21 @@ export default function AdminPanel() {
     }
   };
 
+  const handleScreenshotFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setUploadScreenshotFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadScreenshotBase64(reader.result as string);
+        if (editingProject) {
+          setEditingProject({ ...editingProject, screenshot: file.name });
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   // --- Project actions ---
   const saveProjects = async (newProjects: Project[]) => {
     setIsLoading(true);
@@ -271,10 +396,20 @@ export default function AdminPanel() {
       if (uploadImageFile && uploadImageBase64) {
         const uploadSuccess = await uploadImageToGithub(uploadImageFile.name, uploadImageBase64);
         if (!uploadSuccess) {
-          throw new Error("Falha no upload da imagem.");
+          throw new Error("Falha no upload da imagem de capa.");
         }
         setUploadImageFile(null);
         setUploadImageBase64("");
+      }
+
+      // If we have a screenshot file uploading, upload it too
+      if (uploadScreenshotFile && uploadScreenshotBase64) {
+        const uploadSuccess = await uploadImageToGithub(uploadScreenshotFile.name, uploadScreenshotBase64);
+        if (!uploadSuccess) {
+          throw new Error("Falha no upload do print da página.");
+        }
+        setUploadScreenshotFile(null);
+        setUploadScreenshotBase64("");
       }
 
       const projectsStr = JSON.stringify(newProjects, null, 2);
@@ -313,6 +448,7 @@ export default function AdminPanel() {
       title: "",
       tags: [],
       image: "",
+      screenshot: "",
       description_pt: "",
       description_en: "",
       url: "",
@@ -481,6 +617,271 @@ export default function AdminPanel() {
     savePosts(reordered);
   };
 
+  // --- Education actions ---
+  const saveEducation = async (newEducation: Education[]) => {
+    setIsLoading(true);
+    setStatusMessage({ type: "info", text: "Salvando formação e certificados..." });
+    try {
+      const educationStr = JSON.stringify(newEducation, null, 2);
+      const res = await commitFile(
+        "src/data/education.json",
+        educationStr,
+        educationSha,
+        "Update education.json from admin dashboard"
+      );
+
+      if (res.ok) {
+        const data = await res.json();
+        setEducationSha(data.content.sha);
+        setEducation(newEducation);
+        setEditingEducation(null);
+        setIsCreatingNew(false);
+        setStatusMessage({ type: "success", text: "Formação e certificados salvos no GitHub!" });
+      } else {
+        setStatusMessage({ type: "error", text: "Erro ao salvar formação e certificados no GitHub." });
+      }
+    } catch (err: any) {
+      setStatusMessage({ type: "error", text: err.message || "Erro de rede ao salvar." });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleEditEducation = (edu: Education) => {
+    setEditingEducation({ ...edu });
+    setIsCreatingNew(false);
+  };
+
+  const handleAddNewEducation = () => {
+    setEditingEducation({
+      id: "edu-" + Date.now(),
+      type: "education",
+      title_pt: "",
+      title_en: "",
+      institution: "",
+      year: new Date().getFullYear().toString(),
+      url: "",
+      skills: [],
+      order: education.length + 1,
+    });
+    setIsCreatingNew(true);
+  };
+
+  const handleEducationFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingEducation || !editingEducation.title_pt || !editingEducation.id) return;
+
+    let updatedEdu = [...education];
+
+    if (isCreatingNew) {
+      updatedEdu.push(editingEducation as Education);
+    } else {
+      updatedEdu = updatedEdu.map((e) =>
+        e.id === editingEducation.id ? (editingEducation as Education) : e
+      );
+    }
+
+    // Normalize order
+    updatedEdu = updatedEdu.map((e, idx) => ({ ...e, order: idx + 1 }));
+
+    saveEducation(updatedEdu);
+  };
+
+  const handleDeleteEducation = (eduId: string) => {
+    if (confirm("Tem certeza que deseja remover esta formação/certificado?")) {
+      const updated = education
+        .filter((e) => e.id !== eduId)
+        .map((e, idx) => ({ ...e, order: idx + 1 }));
+      saveEducation(updated);
+    }
+  };
+
+  const moveEducation = (index: number, direction: "up" | "down") => {
+    const updated = [...education];
+    if (direction === "up" && index > 0) {
+      const temp = updated[index];
+      updated[index] = updated[index - 1];
+      updated[index - 1] = temp;
+    } else if (direction === "down" && index < updated.length - 1) {
+      const temp = updated[index];
+      updated[index] = updated[index + 1];
+      updated[index + 1] = temp;
+    }
+
+    const reordered = updated.map((e, idx) => ({ ...e, order: idx + 1 }));
+    saveEducation(reordered);
+  };
+
+  // --- Skills actions ---
+  const saveSkills = async (newSkills: Skill[]) => {
+    setIsLoading(true);
+    setStatusMessage({ type: "info", text: "Salvando habilidades..." });
+    try {
+      let finalSkills = [...newSkills];
+
+      // If we have a skill icon file uploading, upload it first
+      if (uploadSkillIconFile && uploadSkillIconBase64 && editingSkill) {
+        const folder = "public/assets/icons";
+        const uploadSuccess = await uploadImageToGithub(uploadSkillIconFile.name, uploadSkillIconBase64, folder);
+        if (!uploadSuccess) {
+          throw new Error("Falha no upload do ícone da habilidade.");
+        }
+        
+        // Update the editing skill icon path
+        const updatedIconPath = `/assets/icons/${uploadSkillIconFile.name}`;
+        editingSkill.icon = updatedIconPath;
+        
+        // Update inside finalSkills list
+        finalSkills = finalSkills.map((sk) =>
+          sk.id === editingSkill.id ? { ...sk, icon: updatedIconPath } : sk
+        );
+
+        setUploadSkillIconFile(null);
+        setUploadSkillIconBase64("");
+      }
+
+      const skillsStr = JSON.stringify(finalSkills, null, 2);
+      const res = await commitFile(
+        "src/data/skills.json",
+        skillsStr,
+        skillsSha,
+        "Update skills.json from admin dashboard"
+      );
+
+      if (res.ok) {
+        const data = await res.json();
+        setSkillsSha(data.content.sha);
+        setSkills(finalSkills);
+        setEditingSkill(null);
+        setIsCreatingNew(false);
+        setStatusMessage({ type: "success", text: "Habilidades salvas e publicadas no GitHub!" });
+      } else {
+        setStatusMessage({ type: "error", text: "Erro ao salvar as habilidades no GitHub." });
+      }
+    } catch (err: any) {
+      setStatusMessage({ type: "error", text: err.message || "Erro de rede ao salvar habilidades." });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleEditSkill = (sk: Skill) => {
+    setEditingSkill({ ...sk });
+    setIsCreatingNew(false);
+  };
+
+  const handleAddNewSkill = () => {
+    setEditingSkill({
+      id: "skill-" + Date.now(),
+      name: "",
+      icon: "",
+      category: "frontend",
+    });
+    setIsCreatingNew(true);
+  };
+
+  const handleSkillFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingSkill || !editingSkill.name || !editingSkill.id) return;
+
+    let updatedSkills = [...skills];
+
+    if (isCreatingNew) {
+      updatedSkills.push(editingSkill as Skill);
+    } else {
+      updatedSkills = updatedSkills.map((sk) =>
+        sk.id === editingSkill.id ? (editingSkill as Skill) : sk
+      );
+    }
+
+    saveSkills(updatedSkills);
+  };
+
+  const handleDeleteSkill = (skId: string) => {
+    if (confirm("Tem certeza que deseja remover esta habilidade?")) {
+      const updated = skills.filter((sk) => sk.id !== skId);
+      saveSkills(updated);
+    }
+  };
+
+  const handleSkillIconFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setUploadSkillIconFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadSkillIconBase64(reader.result as string);
+        if (editingSkill) {
+          setEditingSkill({ ...editingSkill, icon: `/assets/icons/${file.name}` });
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // --- Profile actions ---
+  const saveProfile = async (newProfile: Profile) => {
+    setIsLoading(true);
+    setStatusMessage({ type: "info", text: "Salvando perfil..." });
+    try {
+      let updatedProfile = { ...newProfile };
+
+      // Upload profile image if present
+      if (uploadProfileImgFile && uploadProfileImgBase64) {
+        const uploadSuccess = await uploadImageToGithub(uploadProfileImgFile.name, uploadProfileImgBase64, "public/assets");
+        if (!uploadSuccess) {
+          throw new Error("Falha no upload da foto de perfil.");
+        }
+        updatedProfile.image = `/assets/${uploadProfileImgFile.name}`;
+        setUploadProfileImgFile(null);
+        setUploadProfileImgBase64("");
+      }
+
+      const profileStr = JSON.stringify(updatedProfile, null, 2);
+      const res = await commitFile(
+        "src/data/profile.json",
+        profileStr,
+        profileSha,
+        "Update profile.json from admin dashboard"
+      );
+
+      if (res.ok) {
+        const data = await res.json();
+        setProfileSha(data.content.sha);
+        setProfile(updatedProfile);
+        setEditingProfile(updatedProfile);
+        setStatusMessage({ type: "success", text: "Perfil atualizado e publicado no GitHub!" });
+      } else {
+        setStatusMessage({ type: "error", text: "Erro ao salvar o perfil no GitHub." });
+      }
+    } catch (err: any) {
+      setStatusMessage({ type: "error", text: err.message || "Erro de rede ao salvar perfil." });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleProfileFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingProfile || !editingProfile.name) return;
+    saveProfile(editingProfile as Profile);
+  };
+
+  const handleProfileImageFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setUploadProfileImgFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadProfileImgBase64(reader.result as string);
+        if (editingProfile) {
+          setEditingProfile({ ...editingProfile, image: `/assets/${file.name}` });
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col pt-24 pb-12 font-sans">
       <div className="max-w-6xl mx-auto px-4 md:px-8 flex-1 w-full">
@@ -621,6 +1022,9 @@ export default function AdminPanel() {
                   setActiveTab("projects");
                   setEditingProject(null);
                   setEditingPost(null);
+                  setEditingEducation(null);
+                  setEditingSkill(null);
+                  setEditingProfile(profile);
                 }}
                 className={`px-4 py-3 rounded-xl font-semibold text-sm transition-all flex items-center gap-2.5 whitespace-nowrap ${
                   activeTab === "projects"
@@ -636,6 +1040,9 @@ export default function AdminPanel() {
                   setActiveTab("posts");
                   setEditingProject(null);
                   setEditingPost(null);
+                  setEditingEducation(null);
+                  setEditingSkill(null);
+                  setEditingProfile(profile);
                 }}
                 className={`px-4 py-3 rounded-xl font-semibold text-sm transition-all flex items-center gap-2.5 whitespace-nowrap ${
                   activeTab === "posts"
@@ -648,9 +1055,66 @@ export default function AdminPanel() {
               </button>
               <button
                 onClick={() => {
+                  setActiveTab("education");
+                  setEditingProject(null);
+                  setEditingPost(null);
+                  setEditingEducation(null);
+                  setEditingSkill(null);
+                  setEditingProfile(profile);
+                }}
+                className={`px-4 py-3 rounded-xl font-semibold text-sm transition-all flex items-center gap-2.5 whitespace-nowrap ${
+                  activeTab === "education"
+                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/10"
+                    : "text-slate-400 hover:text-white hover:bg-slate-900"
+                }`}
+              >
+                <GraduationCap size={18} />
+                Educação & Cursos
+              </button>
+              <button
+                onClick={() => {
+                  setActiveTab("skills");
+                  setEditingProject(null);
+                  setEditingPost(null);
+                  setEditingEducation(null);
+                  setEditingSkill(null);
+                  setEditingProfile(profile);
+                }}
+                className={`px-4 py-3 rounded-xl font-semibold text-sm transition-all flex items-center gap-2.5 whitespace-nowrap ${
+                  activeTab === "skills"
+                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/10"
+                    : "text-slate-400 hover:text-white hover:bg-slate-900"
+                }`}
+              >
+                <Code size={18} />
+                Habilidades
+              </button>
+              <button
+                onClick={() => {
+                  setActiveTab("profile");
+                  setEditingProject(null);
+                  setEditingPost(null);
+                  setEditingEducation(null);
+                  setEditingSkill(null);
+                  setEditingProfile(profile);
+                }}
+                className={`px-4 py-3 rounded-xl font-semibold text-sm transition-all flex items-center gap-2.5 whitespace-nowrap ${
+                  activeTab === "profile"
+                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/10"
+                    : "text-slate-400 hover:text-white hover:bg-slate-900"
+                }`}
+              >
+                <User size={18} />
+                Perfil
+              </button>
+              <button
+                onClick={() => {
                   setActiveTab("settings");
                   setEditingProject(null);
                   setEditingPost(null);
+                  setEditingEducation(null);
+                  setEditingSkill(null);
+                  setEditingProfile(profile);
                 }}
                 className={`px-4 py-3 rounded-xl font-semibold text-sm transition-all flex items-center gap-2.5 whitespace-nowrap ${
                   activeTab === "settings"
@@ -797,7 +1261,7 @@ export default function AdminPanel() {
                           type="text"
                           value={editingProject.tags?.join(", ") || ""}
                           onChange={(e) => setEditingProject({ ...editingProject, tags: e.target.value.split(",").map((t) => t.trim()).filter(Boolean) })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          className="w-full px-4 py-3 rounded-xl bg-slate-955 border border-slate-855 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
                         />
                       </div>
                     </div>
@@ -829,6 +1293,38 @@ export default function AdminPanel() {
                             type="file"
                             accept="image/*"
                             onChange={(e) => handleImageFileChange(e, "project")}
+                            className="hidden"
+                          />
+                        </label>
+                      </div>
+                    </div>
+
+                    {/* Screenshot Upload/Field */}
+                    <div className="p-4 rounded-xl bg-slate-950 border border-slate-850 grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="md:col-span-2">
+                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                          Nome do Arquivo de Print/Screenshot (Opcional)
+                        </label>
+                        <input
+                          type="text"
+                          value={editingProject.screenshot || ""}
+                          onChange={(e) => setEditingProject({ ...editingProject, screenshot: e.target.value })}
+                          className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-850 text-slate-100 text-sm focus:outline-none mb-3"
+                          placeholder="ex: screenshot-gestaotributaria.png"
+                        />
+                        <span className="text-slate-500 text-xxs block">
+                          Se deixado em branco, o print no modal de detalhes usará a imagem de capa padrão acima.
+                        </span>
+                      </div>
+                      
+                      <div className="flex flex-col justify-end">
+                        <label className="w-full px-4 py-3.5 rounded-xl border border-dashed border-slate-800 hover:border-blue-500 flex items-center justify-center gap-2 cursor-pointer text-xs font-semibold text-slate-400 hover:text-white transition-all bg-slate-900">
+                          <Upload size={16} />
+                          Upload de Print
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleScreenshotFileChange}
                             className="hidden"
                           />
                         </label>
@@ -1234,6 +1730,563 @@ export default function AdminPanel() {
                         className="px-6 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-350 hover:text-white hover:border-slate-700 text-sm font-semibold transition-colors"
                       >
                         Cancelar
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-blue-600/10"
+                      >
+                        <Save size={16} />
+                        Salvar e Publicar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+
+              {/* --- EDUCATION TAB --- */}
+              {activeTab === "education" && !editingEducation && (
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8">
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-xl font-bold text-white">Educação, Cursos & Certificados</h2>
+                    <button
+                      onClick={handleAddNewEducation}
+                      className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 font-semibold text-white text-sm transition-all flex items-center gap-1.5"
+                    >
+                      <Plus size={16} />
+                      Adicionar Registro
+                    </button>
+                  </div>
+
+                  {isLoading && education.length === 0 ? (
+                    <div className="flex justify-center py-12">
+                      <RefreshCw className="animate-spin text-blue-500" size={32} />
+                    </div>
+                  ) : education.length === 0 ? (
+                    <p className="text-slate-500 text-center py-8">Nenhum registro cadastrado.</p>
+                  ) : (
+                    <div className="space-y-4">
+                      {education.map((edu, idx) => (
+                        <div
+                          key={edu.id}
+                          className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 p-4 rounded-xl bg-slate-950 border border-slate-850 hover:border-slate-800 transition-colors"
+                        >
+                          <div>
+                            <span className="text-slate-500 text-xs font-semibold block mb-1">
+                              ORDEM #{edu.order} • {edu.type === "education" ? "Formação Acadêmica" : "Certificação/Curso"}
+                            </span>
+                            <h3 className="font-bold text-white text-base">{edu.title_pt} ({edu.year})</h3>
+                            <span className="text-slate-400 text-xs block">{edu.institution}</span>
+                            {edu.skills && edu.skills.length > 0 && (
+                              <div className="flex flex-wrap gap-1 mt-2">
+                                {edu.skills.map((s) => (
+                                  <span key={s} className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-[10px] text-slate-400">
+                                    {s}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                          
+                          <div className="flex items-center gap-2 self-end sm:self-center">
+                            <button
+                              onClick={() => moveEducation(idx, "up")}
+                              disabled={idx === 0 || isLoading}
+                              className="p-2 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-slate-400 hover:text-white transition-all disabled:opacity-30"
+                              title="Subir"
+                            >
+                              <ArrowUp size={16} />
+                            </button>
+                            <button
+                              onClick={() => moveEducation(idx, "down")}
+                              disabled={idx === education.length - 1 || isLoading}
+                              className="p-2 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-slate-400 hover:text-white transition-all disabled:opacity-30"
+                              title="Descer"
+                            >
+                              <ArrowDown size={16} />
+                            </button>
+                            <button
+                              onClick={() => handleEditEducation(edu)}
+                              disabled={isLoading}
+                              className="p-2 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-blue-400 hover:bg-blue-600/5 transition-all"
+                              title="Editar"
+                            >
+                              <Edit2 size={16} />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteEducation(edu.id)}
+                              disabled={isLoading}
+                              className="p-2 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-red-400 hover:bg-red-500/5 transition-all"
+                              title="Remover"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* EDUCATION FORM EDIT */}
+              {activeTab === "education" && editingEducation && (
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8">
+                  <h2 className="text-xl font-bold text-white mb-6">
+                    {isCreatingNew ? "Adicionar Formação/Curso" : `Editar Registro`}
+                  </h2>
+
+                  <form onSubmit={handleEducationFormSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                          Tipo de Registro *
+                        </label>
+                        <select
+                          value={editingEducation.type || "education"}
+                          onChange={(e) => setEditingEducation({ ...editingEducation, type: e.target.value as "education" | "certification" })}
+                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-855 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                        >
+                          <option value="education">Formação Acadêmica (Graduação, etc.)</option>
+                          <option value="certification">Curso / Certificação</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                          Instituição *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={editingEducation.institution || ""}
+                          onChange={(e) => setEditingEducation({ ...editingEducation, institution: e.target.value })}
+                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-855 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          placeholder="Ex: Estácio, Rocketseat, AWS"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                          Título (Português) *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={editingEducation.title_pt || ""}
+                          onChange={(e) => setEditingEducation({ ...editingEducation, title_pt: e.target.value })}
+                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-855 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          placeholder="Ex: Tecnólogo em Análise e Desenvolvimento de Sistemas"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                          Título (Inglês) *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={editingEducation.title_en || ""}
+                          onChange={(e) => setEditingEducation({ ...editingEducation, title_en: e.target.value })}
+                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-855 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          placeholder="Ex: Associate Degree in Systems Analysis and Development"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                          Ano / Período *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={editingEducation.year || ""}
+                          onChange={(e) => setEditingEducation({ ...editingEducation, year: e.target.value })}
+                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-855 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          placeholder="Ex: 2023 - 2026 ou 2024"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                          Link da Credencial / Curso (Opcional)
+                        </label>
+                        <input
+                          type="url"
+                          value={editingEducation.url || ""}
+                          onChange={(e) => setEditingEducation({ ...editingEducation, url: e.target.value })}
+                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-855 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          placeholder="Ex: https://..."
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        Skills Conquistadas (separadas por vírgula)
+                      </label>
+                      <input
+                        type="text"
+                        value={editingEducation.skills?.join(", ") || ""}
+                        onChange={(e) => setEditingEducation({ ...editingEducation, skills: e.target.value.split(",").map((s) => s.trim()).filter(Boolean) })}
+                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-855 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors mb-2"
+                        placeholder="Ex: React, TypeScript, Node.js"
+                      />
+                      
+                      {/* Suggest some skills from existing ones in case they want a quick click */}
+                      {Array.from(new Set(education.flatMap((e) => e.skills || []))).filter(Boolean).length > 0 && (
+                        <div className="mt-2">
+                          <span className="text-slate-400 text-xs block mb-1.5">Skills existentes (clique para adicionar/remover):</span>
+                          <div className="flex flex-wrap gap-1.5">
+                            {Array.from(new Set(education.flatMap((e) => e.skills || []))).filter(Boolean).map((skill) => {
+                              const isSelected = editingEducation.skills?.includes(skill);
+                              return (
+                                <button
+                                  key={skill}
+                                  type="button"
+                                  onClick={() => {
+                                    const currentSkills = editingEducation.skills || [];
+                                    let updatedSkills;
+                                    if (isSelected) {
+                                      updatedSkills = currentSkills.filter((s) => s !== skill);
+                                    } else {
+                                      updatedSkills = [...currentSkills, skill];
+                                    }
+                                    setEditingEducation({ ...editingEducation, skills: updatedSkills });
+                                  }}
+                                  className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
+                                    isSelected
+                                      ? "bg-blue-600 text-white"
+                                      : "bg-slate-950 border border-slate-850 text-slate-400 hover:text-white"
+                                  }`}
+                                >
+                                  {skill}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="flex justify-end gap-3 pt-4">
+                      <button
+                        type="button"
+                        onClick={() => setEditingEducation(null)}
+                        className="px-6 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-350 hover:text-white hover:border-slate-700 text-sm font-semibold transition-colors"
+                      >
+                        Cancelar
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-blue-600/10"
+                      >
+                        <Save size={16} />
+                        Salvar e Publicar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+
+              {/* --- SKILLS TAB --- */}
+              {activeTab === "skills" && !editingSkill && (
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8">
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-xl font-bold text-white">Minhas Habilidades</h2>
+                    <button
+                      onClick={handleAddNewSkill}
+                      className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 font-semibold text-white text-sm transition-all flex items-center gap-1.5"
+                    >
+                      <Plus size={16} />
+                      Nova Habilidade
+                    </button>
+                  </div>
+
+                  {isLoading && skills.length === 0 ? (
+                    <div className="flex justify-center py-12">
+                      <RefreshCw className="animate-spin text-blue-500" size={32} />
+                    </div>
+                  ) : skills.length === 0 ? (
+                    <p className="text-slate-500 text-center py-8">Nenhuma habilidade cadastrada.</p>
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                      {skills.map((sk) => (
+                        <div
+                          key={sk.id}
+                          className="flex justify-between items-center gap-3 p-4 rounded-xl bg-slate-950 border border-slate-850 hover:border-slate-800 transition-colors"
+                        >
+                          <div className="flex items-center gap-3 overflow-hidden">
+                            {sk.icon ? (
+                              <img
+                                src={sk.icon}
+                                alt={sk.name}
+                                className="w-8 h-8 object-contain flex-shrink-0"
+                                onError={(e) => {
+                                  (e.target as HTMLElement).style.display = 'none';
+                                }}
+                              />
+                            ) : (
+                              <div className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-500 text-xs flex-shrink-0">
+                                {sk.name.substring(0, 2).toUpperCase()}
+                              </div>
+                            )}
+                            <div className="min-w-0">
+                              <h3 className="font-bold text-white text-sm truncate">{sk.name}</h3>
+                              <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-[10px] text-slate-405 capitalize">
+                                {sk.category}
+                              </span>
+                            </div>
+                          </div>
+                          
+                          <div className="flex items-center gap-1 flex-shrink-0">
+                            <button
+                              onClick={() => handleEditSkill(sk)}
+                              disabled={isLoading}
+                              className="p-1.5 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-blue-400 hover:bg-blue-600/5 transition-all"
+                              title="Editar"
+                            >
+                              <Edit2 size={14} />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteSkill(sk.id)}
+                              disabled={isLoading}
+                              className="p-1.5 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-red-400 hover:bg-red-500/5 transition-all"
+                              title="Remover"
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* SKILLS FORM EDIT */}
+              {activeTab === "skills" && editingSkill && (
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8">
+                  <h2 className="text-xl font-bold text-white mb-6">
+                    {isCreatingNew ? "Adicionar Habilidade" : `Editar: ${editingSkill.name}`}
+                  </h2>
+
+                  <form onSubmit={handleSkillFormSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                          ID Único / Slug *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          disabled={!isCreatingNew}
+                          value={editingSkill.id || ""}
+                          onChange={(e) => setEditingSkill({ ...editingSkill, id: e.target.value.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "") })}
+                          className="w-full px-4 py-3 rounded-xl bg-slate-955 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors disabled:opacity-50"
+                          placeholder="ex: javascript"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                          Nome da Habilidade *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={editingSkill.name || ""}
+                          onChange={(e) => setEditingSkill({ ...editingSkill, name: e.target.value })}
+                          className="w-full px-4 py-3 rounded-xl bg-slate-955 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          placeholder="Ex: React"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        Categoria *
+                      </label>
+                      <select
+                        value={editingSkill.category || "frontend"}
+                        onChange={(e) => setEditingSkill({ ...editingSkill, category: e.target.value as any })}
+                        className="w-full px-4 py-3 rounded-xl bg-slate-955 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                      >
+                        <option value="frontend">Frontend</option>
+                        <option value="backend">Backend</option>
+                        <option value="design">Design / UI / UX</option>
+                        <option value="cms">CMS (WordPress, etc.)</option>
+                        <option value="other">Outros</option>
+                      </select>
+                    </div>
+
+                    {/* Skill Icon File Upload / Path */}
+                    <div className="p-4 rounded-xl bg-slate-950 border border-slate-850 grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="md:col-span-2">
+                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                          Caminho do Ícone (.svg ou imagem) *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={editingSkill.icon || ""}
+                          onChange={(e) => setEditingSkill({ ...editingSkill, icon: e.target.value })}
+                          className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-850 text-slate-100 text-sm focus:outline-none mb-3"
+                          placeholder="Ex: /assets/icons/react.svg"
+                        />
+                        <span className="text-slate-500 text-xxs block">
+                          Ao fazer upload de um ícone, este campo será preenchido automaticamente com o caminho correto.
+                        </span>
+                      </div>
+                      
+                      <div className="flex flex-col justify-end">
+                        <label className="w-full px-4 py-3.5 rounded-xl border border-dashed border-slate-800 hover:border-blue-500 flex items-center justify-center gap-2 cursor-pointer text-xs font-semibold text-slate-400 hover:text-white transition-all bg-slate-900">
+                          <Upload size={16} />
+                          Upload de Ícone
+                          <input
+                            type="file"
+                            accept="image/*,.svg"
+                            onChange={handleSkillIconFileChange}
+                            className="hidden"
+                          />
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-end gap-3 pt-4">
+                      <button
+                        type="button"
+                        onClick={() => setEditingSkill(null)}
+                        className="px-6 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-350 hover:text-white hover:border-slate-700 text-sm font-semibold transition-colors"
+                      >
+                        Cancelar
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-blue-600/10"
+                      >
+                        <Save size={16} />
+                        Salvar e Publicar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+
+              {/* --- PROFILE TAB --- */}
+              {activeTab === "profile" && editingProfile && (
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8">
+                  <h2 className="text-xl font-bold text-white mb-6">Perfil Pessoal</h2>
+
+                  <form onSubmit={handleProfileFormSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                          Seu Nome *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={editingProfile.name || ""}
+                          onChange={(e) => setEditingProfile({ ...editingProfile, name: e.target.value })}
+                          className="w-full px-4 py-3 rounded-xl bg-slate-955 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                        />
+                      </div>
+                      
+                      {/* Image Upload/Field */}
+                      <div className="p-4 rounded-xl bg-slate-950 border border-slate-850 grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="md:col-span-2">
+                          <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                            Foto de Perfil (Caminho) *
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={editingProfile.image || ""}
+                            onChange={(e) => setEditingProfile({ ...editingProfile, image: e.target.value })}
+                            className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-850 text-slate-100 text-sm focus:outline-none mb-3"
+                          />
+                          <span className="text-slate-500 text-xxs block">
+                            Ao fazer upload da foto, o campo será preenchido com a pasta `/assets/` correta.
+                          </span>
+                        </div>
+                        
+                        <div className="flex flex-col justify-end">
+                          <label className="w-full px-4 py-3.5 rounded-xl border border-dashed border-slate-800 hover:border-blue-500 flex items-center justify-center gap-2 cursor-pointer text-xs font-semibold text-slate-400 hover:text-white transition-all bg-slate-900">
+                            <Upload size={16} />
+                            Upload Foto
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={handleProfileImageFileChange}
+                              className="hidden"
+                            />
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                          Subtítulo (Português) *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={editingProfile.subtitle_pt || ""}
+                          onChange={(e) => setEditingProfile({ ...editingProfile, subtitle_pt: e.target.value })}
+                          className="w-full px-4 py-3 rounded-xl bg-slate-955 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                          Subtítulo (Inglês) *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={editingProfile.subtitle_en || ""}
+                          onChange={(e) => setEditingProfile({ ...editingProfile, subtitle_en: e.target.value })}
+                          className="w-full px-4 py-3 rounded-xl bg-slate-955 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        Biografia / Sobre Mim (Português)
+                      </label>
+                      <textarea
+                        rows={4}
+                        value={editingProfile.bio_pt || ""}
+                        onChange={(e) => setEditingProfile({ ...editingProfile, bio_pt: e.target.value })}
+                        className="w-full px-4 py-3 rounded-xl bg-slate-955 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors resize-y"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        Biografia / Sobre Mim (Inglês)
+                      </label>
+                      <textarea
+                        rows={4}
+                        value={editingProfile.bio_en || ""}
+                        onChange={(e) => setEditingProfile({ ...editingProfile, bio_en: e.target.value })}
+                        className="w-full px-4 py-3 rounded-xl bg-slate-955 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors resize-y"
+                      />
+                    </div>
+
+                    <div className="flex justify-end gap-3 pt-4">
+                      <button
+                        type="button"
+                        onClick={() => setEditingProfile(profile)}
+                        className="px-6 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-350 hover:text-white hover:border-slate-700 text-sm font-semibold transition-colors"
+                      >
+                        Resetar
                       </button>
                       <button
                         type="submit"

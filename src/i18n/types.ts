@@ -30,6 +30,11 @@ export interface UIStrings {
     featured: string;
     recentPosts: string;
     allPosts: string;
+    educationTitle: string;
+    educationSubtitle: string;
+    academicTitle: string;
+    certificationsTitle: string;
+    viewCredential: string;
   };
   footer: {
     copyright: string;

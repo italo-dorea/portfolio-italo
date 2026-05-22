@@ -1,0 +1,50 @@
+[
+  {
+    "id": "javascript",
+    "name": "JavaScript",
+    "icon": "/assets/icons/javascript.svg",
+    "category": "frontend"
+  },
+  {
+    "id": "typescript",
+    "name": "TypeScript",
+    "icon": "/assets/icons/typescript.svg",
+    "category": "frontend"
+  },
+  {
+    "id": "react",
+    "name": "React",
+    "icon": "/assets/icons/react.svg",
+    "category": "frontend"
+  },
+  {
+    "id": "nodejs",
+    "name": "Node.js",
+    "icon": "/assets/icons/node.svg",
+    "category": "backend"
+  },
+  {
+    "id": "html5",
+    "name": "HTML5",
+    "icon": "/assets/icons/html.svg",
+    "category": "frontend"
+  },
+  {
+    "id": "css3",
+    "name": "CSS3",
+    "icon": "/assets/icons/css.svg",
+    "category": "frontend"
+  },
+  {
+    "id": "figma",
+    "name": "Figma",
+    "icon": "/assets/icons/figma.svg",
+    "category": "design"
+  },
+  {
+    "id": "wordpress",
+    "name": "WordPress",
+    "icon": "/assets/icons/wordpress.svg",
+    "category": "cms"
+  }
+]

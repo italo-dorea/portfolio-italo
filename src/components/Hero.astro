@@ -1,16 +1,16 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
+import profileData from "../data/profile.json";
 
 const locale = Astro.currentLocale ?? "pt";
 const isPt = locale === "pt";
 
 const t = (pt: string, en: string) => (isPt ? pt : en);
 
-const subtitle = t("Analista e Desenvolvedor de Softwares", "Software Analyst and Developer");
-const bio = t(
-  "Desenvolvedor de software com experiência na construção de aplicações completas, combinando habilidades em desenvolvimento front-end e full-stack, bancos de dados, infraestrutura em nuvem e design UX/UI. Focado na criação de soluções práticas e eficientes para aprimorar a experiência do usuário. Participei de diversos projetos, contribuindo para o desenvolvimento de soluções funcionais, valorizando o aprendizado contínuo.",
-  "Software Developer with experience in building complete applications, combining skills in front-end and full-stack development, databases, cloud infrastructure, and UX/UI design. Focused on creating practical and efficient solutions to enhance user experience. I have participated in several projects, contributing to the development of functional solutions while valuing continuous learning."
-);
+const name = profileData.name;
+const image = profileData.image;
+const subtitle = isPt ? profileData.subtitle_pt : profileData.subtitle_en;
+const bio = isPt ? profileData.bio_pt : profileData.bio_en;
 const printCv = t("Imprimir Currículo", "Print CV");
 const contactMe = t("Fale Comigo", "Let's Talk");
 const viewProjects = t("Ver Projetos", "View Projects");
@@ -32,8 +32,8 @@ const viewProjects = t("Ver Projetos", "View Projects");
     <div class="relative inline-block mb-8 animate-fade-in-scale">
       <div class="relative w-36 h-36 md:w-44 md:h-44 rounded-full overflow-hidden border-4 border-border shadow-2xl">
         <img
-          src="/assets/profile-italo.jpg"
-          alt="Ítalo Dórea"
+          src={image}
+          alt={name}
           class="w-full h-full object-cover"
         />
       </div>
@@ -42,7 +42,7 @@ const viewProjects = t("Ver Projetos", "View Projects");
     {/* Name and Title */}
     <div class="animate-fade-in-up">
       <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-foreground mb-3">
-        Ítalo Dórea
+        {name}
       </h1>
       
       <h2 class="text-xl md:text-2xl font-bold mb-6 flex items-center justify-center gap-3">
