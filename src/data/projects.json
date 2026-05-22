@@ -74,21 +74,6 @@
     "order": 5
   },
   {
-    "id": "sefaz-facil",
-    "title": "Sefaz Fácil Brasil",
-    "tags": [
-      "React",
-      "Supabase",
-      "SaaS"
-    ],
-    "image": "sefaz.png",
-    "description_pt": "Sistema facilitador para MEI's. Levantamento de requisitos e desenvolvimento da UI/UX e suas funcionalidades. Fluxo de caixa, fórum, postagens de notícias, etc.",
-    "description_en": "System with tips and information, tax calculations and a forum on taxation for MEIs.",
-    "url": "https://sefazfacilbrasil.com.br/",
-    "order": 6,
-    "screenshot": "sefazfacil-lp.png"
-  },
-  {
     "id": "easy-process",
     "title": "EasyProcess",
     "tags": [
@@ -100,7 +85,22 @@
     "description_pt": "Sistema de gestão de processos de trabalho, gerenciamento de equipes e criação de fluxo de trabalho e gerenciamento de clientes de consultoria",
     "description_en": "Work process management system, team management, workflow creation, and consulting client management.",
     "url": "",
-    "order": 7
+    "order": 6
+  },
+  {
+    "id": "sefaz-facil",
+    "title": "Sefaz Fácil Brasil",
+    "tags": [
+      "React",
+      "Supabase",
+      "SaaS"
+    ],
+    "image": "sefaz.png",
+    "description_pt": "Sistema facilitador para MEI's. Levantamento de requisitos e desenvolvimento da UI/UX e suas funcionalidades. Fluxo de caixa, fórum, postagens de notícias, etc.",
+    "description_en": "System with tips and information, tax calculations and a forum on taxation for MEIs.",
+    "url": "https://sefazfacilbrasil.com.br/",
+    "order": 7,
+    "screenshot": "sefazfacil-lp.png"
   },
   {
     "id": "a4-locadora",
