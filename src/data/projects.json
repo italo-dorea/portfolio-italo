@@ -2,7 +2,11 @@
   {
     "id": "gestao-tributaria",
     "title": "Gestão Tributária",
-    "tags": ["React", "CSS", "UI/UX"],
+    "tags": [
+      "React",
+      "CSS",
+      "UI/UX"
+    ],
     "image": "gestaotributaria.png",
     "description_pt": "Software de pesquisas, módulo EFD-Reinf e ferramentas complementares na área tributária. Atuo como desenvolvedor front-end e analista, implementando novas funcionalidades, melhorias de UI/UX design e correções.",
     "description_en": "Research software, EFD-Reinf module, and complementary tools in the tax area. I work as a front-end developer implementing new functionalities, UI/UX improvements, and more.",
@@ -12,8 +16,12 @@
   {
     "id": "exito-1000",
     "title": "Redação Êxito 1000",
-    "tags": ["WordPress", "SEO", "Blog"],
-    "image": "exito1000.png",
+    "tags": [
+      "WordPress",
+      "SEO",
+      "Blog"
+    ],
+    "image": "redacaoexito.png",
     "description_pt": "Site da plataforma de redação Exito 1000, desenvolvimento de interfaces intuitivas, blog de postagens e SEO para conversão de usuários e posicionamento nos buscadores.",
     "description_en": "Exito 1000 writing platform, responsible for the development and maintenance of pages, as well as UI/UX improvements.",
     "url": "https://redacaoexito1000.com.br/",
@@ -22,7 +30,11 @@
   {
     "id": "gtap",
     "title": "GTAP - Congresso Brasileiro de Gestão Tributária",
-    "tags": ["React", "JavaScript", "Eventos"],
+    "tags": [
+      "React",
+      "JavaScript",
+      "Eventos"
+    ],
     "image": "gtap.png",
     "description_pt": "Site do maior evento do brasil sobre tributação na adm. pública. Desenvolvi a interface e suas implementações, formulário e interatividade.",
     "description_en": "Website for a nationwide event, with contact form, gallery and information pages.",
@@ -32,7 +44,11 @@
   {
     "id": "cnpj-search",
     "title": "CNPJ Search",
-    "tags": ["TypeScript", "API", "React"],
+    "tags": [
+      "TypeScript",
+      "API",
+      "React"
+    ],
     "image": "cnpjSearch.png",
     "description_pt": "Sistema de pesquisa de empresas brasileiras pelo nº CNPJ. Encontre uma empresa, informações de contato e muito mais.",
     "description_en": "A tool for querying data about Brazilian companies using their CNPJ. All the information you need about a company in one place.",
@@ -42,7 +58,12 @@
   {
     "id": "foco-na-reforma",
     "title": "Comunidade Foco na reforma",
-    "tags": ["HTML", "CSS", "JavaScript", "SEO"],
+    "tags": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "SEO"
+    ],
     "image": "foco.png",
     "description_pt": "Site da comunidade de discussões sobre a reforma tributária no brasil. Desenvolvimento do site e implementação de boas práticas para SEO e scores nos buscadores.",
     "description_en": "Discussion community website on Brazilian tax reform. Designed for SEO and optimal search performance.",
@@ -52,7 +73,11 @@
   {
     "id": "sefaz-facil",
     "title": "Sefaz Fácil Brasil",
-    "tags": ["React", "Supabase", "SaaS"],
+    "tags": [
+      "React",
+      "Supabase",
+      "SaaS"
+    ],
     "image": "sefaz.png",
     "description_pt": "Sistema facilitador para MEI's. Levantamento de requisitos e desenvolvimento da UI/UX e suas funcionalidades. Fluxo de caixa, fórum, postagens de notícias, etc.",
     "description_en": "System with tips and information, tax calculations and a forum on taxation for MEIs.",
@@ -62,7 +87,10 @@
   {
     "id": "a4-locadora",
     "title": "A4 Locadora",
-    "tags": ["WordPress", "Landing Page"],
+    "tags": [
+      "WordPress",
+      "Landing Page"
+    ],
     "image": "a4locadora.png",
     "description_pt": "Landing page de locação para motocicletas. Desenvolvimento do design da interface e formulário de recebimento das informações de locação.",
     "description_en": "Sales landing page for A4 Locadora de Motos, including design, conversion-focused landing page, and motorcycle reservation system.",
@@ -72,7 +100,11 @@
   {
     "id": "dm-advocacia",
     "title": "D&M Advocacia",
-    "tags": ["HTML", "CSS", "JavaScript"],
+    "tags": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
     "image": "dmadv.png",
     "description_pt": "Site institucional de grande escritório de advocacia localizado em Salvador/BA.",
     "description_en": "Institutional website for a firm specializing in Tax and Business Law, based in Salvador.",
@@ -82,7 +114,10 @@
   {
     "id": "html-converter",
     "title": "HTML Converter",
-    "tags": ["JavaScript", "Tooling"],
+    "tags": [
+      "JavaScript",
+      "Tooling"
+    ],
     "image": "modelo-html-1.jpg",
     "description_pt": "Ferramenta para auxiliar no dia a dia no conversão de conteúdo html e excel. Desenvolvi para ajudar em tarefas do cotidiano.",
     "description_en": "An assistive tool that processes HTML content and converts it into standard HTML format.",
