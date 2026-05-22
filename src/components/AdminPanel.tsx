@@ -883,16 +883,16 @@ export default function AdminPanel() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col pt-24 pb-12 font-sans">
+    <div className="min-h-screen bg-background text-foreground flex flex-col pt-24 pb-12 font-app">
       <div className="max-w-6xl mx-auto px-4 md:px-8 flex-1 w-full">
         {/* Header Title */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 border-b border-slate-900 pb-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 border-b border-border pb-6">
           <div>
-            <h1 className="text-3xl font-extrabold text-white flex items-center gap-2">
-              <Settings className="text-blue-500" />
+            <h1 className="text-3xl font-extrabold text-foreground flex items-center gap-2">
+              <Settings className="text-foreground" />
               Painel Admin CMS
             </h1>
-            <p className="text-slate-400 text-sm mt-1">
+            <p className="text-muted-foreground text-sm mt-1">
               Gerencie seus projetos e postagens diretamente no GitHub
             </p>
           </div>
@@ -900,14 +900,14 @@ export default function AdminPanel() {
             <div className="flex gap-3">
               <a
                 href="/"
-                className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-350 hover:text-white hover:border-slate-700 hover:bg-slate-850 text-sm font-semibold transition-all duration-300 flex items-center gap-1.5"
+                className="px-4 py-2 rounded-xl bg-muted border border-border text-muted-foreground hover:text-foreground hover:border-accent hover:bg-background text-sm font-semibold transition-all duration-300 flex items-center gap-1.5"
               >
                 <Eye size={16} />
                 Visualizar Site
               </a>
               <button
                 onClick={handleDisconnect}
-                className="px-4 py-2 rounded-xl bg-red-600/10 border border-red-500/20 text-red-400 hover:bg-red-500 hover:text-white hover:border-transparent text-sm font-semibold transition-all duration-300 flex items-center gap-1.5"
+                className="px-4 py-2 rounded-xl bg-red-600/10 border border-red-500/20 text-rose-500 hover:bg-red-500 hover:text-foreground hover:border-transparent text-sm font-semibold transition-all duration-300 flex items-center gap-1.5"
               >
                 <LogOut size={16} />
                 Desconectar
@@ -923,14 +923,14 @@ export default function AdminPanel() {
               statusMessage.type === "success"
                 ? "bg-emerald-500/10 border-emerald-500/25 text-emerald-400"
                 : statusMessage.type === "error"
-                ? "bg-rose-500/10 border-rose-500/25 text-rose-450"
-                : "bg-blue-500/10 border-blue-500/25 text-blue-400"
+                ? "bg-rose-500/10 border-rose-500/25 text-rose-500"
+                : "bg-blue-500/10 border-blue-500/25 text-foreground"
             }`}
           >
             <span>{statusMessage.text}</span>
             <button
               onClick={() => setStatusMessage({ type: "", text: "" })}
-              className="text-slate-400 hover:text-white ml-4 font-bold text-xs"
+              className="text-muted-foreground hover:text-foreground ml-4 font-bold text-xs"
             >
               ✕
             </button>
@@ -939,18 +939,18 @@ export default function AdminPanel() {
 
         {/* Auth / Connection Form */}
         {!isConnected ? (
-          <div className="max-w-md mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-xl mt-12">
-            <div className="w-12 h-12 rounded-xl bg-blue-600/10 border border-blue-500/20 flex items-center justify-center mb-6">
-              <Lock className="text-blue-500" size={24} />
+          <div className="max-w-md mx-auto bg-muted/40 border border-border rounded-2xl p-8 shadow-xl mt-12">
+            <div className="w-12 h-12 rounded-xl bg-muted border border-border flex items-center justify-center mb-6">
+              <Lock className="text-foreground" size={24} />
             </div>
-            <h2 className="text-xl font-bold text-white mb-2">Conectar ao GitHub</h2>
-            <p className="text-slate-400 text-sm mb-6">
+            <h2 className="text-xl font-bold text-foreground mb-2">Conectar ao GitHub</h2>
+            <p className="text-muted-foreground text-sm mb-6">
               Forneça seu Token de Acesso Pessoal (PAT) com escopo `repo` para ler/escrever arquivos no repositório.
             </p>
 
             <form onSubmit={handleConnect} className="space-y-4">
               <div>
-                <label className="block text-slate-300 text-xs font-semibold uppercase tracking-wider mb-2">
+                <label className="block text-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                   GitHub Token
                 </label>
                 <input
@@ -958,51 +958,51 @@ export default function AdminPanel() {
                   placeholder="ghp_..."
                   value={token}
                   onChange={(e) => setToken(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-105 text-sm transition-colors"
+                  className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                  <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                     Usuário GitHub
                   </label>
                   <input
                     type="text"
                     value={owner}
                     onChange={(e) => setOwner(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                    className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                  <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                     Repositório
                   </label>
                   <input
                     type="text"
                     value={repo}
                     onChange={(e) => setRepo(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                    className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                   Branch
                 </label>
                 <input
                   type="text"
                   value={branch}
                   onChange={(e) => setBranch(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                  className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 font-semibold text-white transition-colors flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20 disabled:opacity-50"
+                className="w-full py-3.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 font-semibold text-foreground transition-colors flex items-center justify-center gap-2 shadow-lg shadow-sm disabled:opacity-50"
               >
                 {isLoading ? (
                   <RefreshCw className="animate-spin" size={18} />
@@ -1028,8 +1028,8 @@ export default function AdminPanel() {
                 }}
                 className={`px-4 py-3 rounded-xl font-semibold text-sm transition-all flex items-center gap-2.5 whitespace-nowrap ${
                   activeTab === "projects"
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/10"
-                    : "text-slate-400 hover:text-white hover:bg-slate-900"
+                    ? "bg-blue-600 text-foreground shadow-md shadow-sm"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                 }`}
               >
                 <Briefcase size={18} />
@@ -1046,8 +1046,8 @@ export default function AdminPanel() {
                 }}
                 className={`px-4 py-3 rounded-xl font-semibold text-sm transition-all flex items-center gap-2.5 whitespace-nowrap ${
                   activeTab === "posts"
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/10"
-                    : "text-slate-400 hover:text-white hover:bg-slate-900"
+                    ? "bg-blue-600 text-foreground shadow-md shadow-sm"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                 }`}
               >
                 <FileText size={18} />
@@ -1064,8 +1064,8 @@ export default function AdminPanel() {
                 }}
                 className={`px-4 py-3 rounded-xl font-semibold text-sm transition-all flex items-center gap-2.5 whitespace-nowrap ${
                   activeTab === "education"
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/10"
-                    : "text-slate-400 hover:text-white hover:bg-slate-900"
+                    ? "bg-blue-600 text-foreground shadow-md shadow-sm"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                 }`}
               >
                 <GraduationCap size={18} />
@@ -1082,8 +1082,8 @@ export default function AdminPanel() {
                 }}
                 className={`px-4 py-3 rounded-xl font-semibold text-sm transition-all flex items-center gap-2.5 whitespace-nowrap ${
                   activeTab === "skills"
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/10"
-                    : "text-slate-400 hover:text-white hover:bg-slate-900"
+                    ? "bg-blue-600 text-foreground shadow-md shadow-sm"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                 }`}
               >
                 <Code size={18} />
@@ -1100,8 +1100,8 @@ export default function AdminPanel() {
                 }}
                 className={`px-4 py-3 rounded-xl font-semibold text-sm transition-all flex items-center gap-2.5 whitespace-nowrap ${
                   activeTab === "profile"
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/10"
-                    : "text-slate-400 hover:text-white hover:bg-slate-900"
+                    ? "bg-blue-600 text-foreground shadow-md shadow-sm"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                 }`}
               >
                 <User size={18} />
@@ -1118,8 +1118,8 @@ export default function AdminPanel() {
                 }}
                 className={`px-4 py-3 rounded-xl font-semibold text-sm transition-all flex items-center gap-2.5 whitespace-nowrap ${
                   activeTab === "settings"
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/10"
-                    : "text-slate-400 hover:text-white hover:bg-slate-900"
+                    ? "bg-blue-600 text-foreground shadow-md shadow-sm"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/40"
                 }`}
               >
                 <Settings size={18} />
@@ -1131,12 +1131,12 @@ export default function AdminPanel() {
             <div className="lg:col-span-3">
               {/* --- PROJECTS TAB --- */}
               {activeTab === "projects" && !editingProject && (
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8">
+                <div className="bg-muted/40 border border-border rounded-2xl p-6 md:p-8">
                   <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-bold text-white">Lista de Projetos</h2>
+                    <h2 className="text-xl font-bold text-foreground">Lista de Projetos</h2>
                     <button
                       onClick={handleAddNewProject}
-                      className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 font-semibold text-white text-sm transition-all flex items-center gap-1.5"
+                      className="px-4 py-2 rounded-xl bg-accent text-accent-foreground hover:opacity-90 font-semibold text-foreground text-sm transition-all flex items-center gap-1.5"
                     >
                       <Plus size={16} />
                       Novo Projeto
@@ -1145,30 +1145,30 @@ export default function AdminPanel() {
 
                   {isLoading && projects.length === 0 ? (
                     <div className="flex justify-center py-12">
-                      <RefreshCw className="animate-spin text-blue-500" size={32} />
+                      <RefreshCw className="animate-spin text-foreground" size={32} />
                     </div>
                   ) : projects.length === 0 ? (
-                    <p className="text-slate-500 text-center py-8">Nenhum projeto cadastrado.</p>
+                    <p className="text-muted-foreground text-center py-8">Nenhum projeto cadastrado.</p>
                   ) : (
                     <div className="space-y-4">
                       {projects.map((proj, idx) => (
                         <div
                           key={proj.id}
-                          className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 p-4 rounded-xl bg-slate-950 border border-slate-850 hover:border-slate-800 transition-colors"
+                          className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 p-4 rounded-xl bg-background border border-border hover:border-border transition-colors"
                         >
                           <div>
-                            <span className="text-slate-500 text-xs font-semibold block mb-1">
+                            <span className="text-muted-foreground text-xs font-semibold block mb-1">
                               ORDEM #{proj.order} • {proj.tags.slice(0, 2).join(", ")}
                             </span>
-                            <h3 className="font-bold text-white text-base">{proj.title}</h3>
-                            <span className="text-slate-400 text-xs line-clamp-1">{proj.url}</span>
+                            <h3 className="font-bold text-foreground text-base">{proj.title}</h3>
+                            <span className="text-muted-foreground text-xs line-clamp-1">{proj.url}</span>
                           </div>
                           
                           <div className="flex items-center gap-2 self-end sm:self-center">
                             <button
                               onClick={() => moveProject(idx, "up")}
                               disabled={idx === 0 || isLoading}
-                              className="p-2 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-slate-400 hover:text-white transition-all disabled:opacity-30"
+                              className="p-2 rounded-lg bg-muted/40 border border-border hover:border-border text-muted-foreground hover:text-foreground transition-all disabled:opacity-30"
                               title="Subir"
                             >
                               <ArrowUp size={16} />
@@ -1176,7 +1176,7 @@ export default function AdminPanel() {
                             <button
                               onClick={() => moveProject(idx, "down")}
                               disabled={idx === projects.length - 1 || isLoading}
-                              className="p-2 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-slate-400 hover:text-white transition-all disabled:opacity-30"
+                              className="p-2 rounded-lg bg-muted/40 border border-border hover:border-border text-muted-foreground hover:text-foreground transition-all disabled:opacity-30"
                               title="Descer"
                             >
                               <ArrowDown size={16} />
@@ -1184,7 +1184,7 @@ export default function AdminPanel() {
                             <button
                               onClick={() => handleEditProject(proj)}
                               disabled={isLoading}
-                              className="p-2 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-blue-400 hover:bg-blue-600/5 transition-all"
+                              className="p-2 rounded-lg bg-muted/40 border border-border hover:border-border text-foreground hover:bg-accent/10 transition-all"
                               title="Editar"
                             >
                               <Edit2 size={16} />
@@ -1192,7 +1192,7 @@ export default function AdminPanel() {
                             <button
                               onClick={() => handleDeleteProject(proj.id)}
                               disabled={isLoading}
-                              className="p-2 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-red-400 hover:bg-red-500/5 transition-all"
+                              className="p-2 rounded-lg bg-muted/40 border border-border hover:border-border text-rose-500 hover:bg-rose-500/10 transition-all"
                               title="Remover"
                             >
                               <Trash2 size={16} />
@@ -1207,15 +1207,15 @@ export default function AdminPanel() {
 
               {/* PROJECT FORM EDIT */}
               {activeTab === "projects" && editingProject && (
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8">
-                  <h2 className="text-xl font-bold text-white mb-6">
+                <div className="bg-muted/40 border border-border rounded-2xl p-6 md:p-8">
+                  <h2 className="text-xl font-bold text-foreground mb-6">
                     {isCreatingNew ? "Criar Novo Projeto" : `Editar: ${editingProject.title}`}
                   </h2>
 
                   <form onSubmit={handleProjectFormSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           ID Único / Slug *
                         </label>
                         <input
@@ -1224,11 +1224,11 @@ export default function AdminPanel() {
                           disabled={!isCreatingNew}
                           value={editingProject.id || ""}
                           onChange={(e) => setEditingProject({ ...editingProject, id: e.target.value.toLowerCase().replace(/\s+/g, "-") })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors disabled:opacity-50"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors disabled:opacity-50"
                         />
                       </div>
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Título do Projeto *
                         </label>
                         <input
@@ -1236,40 +1236,40 @@ export default function AdminPanel() {
                           required
                           value={editingProject.title || ""}
                           onChange={(e) => setEditingProject({ ...editingProject, title: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                         />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           URL do Projeto / Link
                         </label>
                         <input
                           type="url"
                           value={editingProject.url || ""}
                           onChange={(e) => setEditingProject({ ...editingProject, url: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Tags (separadas por vírgula)
                         </label>
                         <input
                           type="text"
                           value={editingProject.tags?.join(", ") || ""}
                           onChange={(e) => setEditingProject({ ...editingProject, tags: e.target.value.split(",").map((t) => t.trim()).filter(Boolean) })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-955 border border-slate-855 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                         />
                       </div>
                     </div>
 
                     {/* Image Upload/Field */}
-                    <div className="p-4 rounded-xl bg-slate-950 border border-slate-850 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="p-4 rounded-xl bg-background border border-border grid grid-cols-1 md:grid-cols-3 gap-6">
                       <div className="md:col-span-2">
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Nome do Arquivo de Imagem *
                         </label>
                         <input
@@ -1277,16 +1277,16 @@ export default function AdminPanel() {
                           required
                           value={editingProject.image || ""}
                           onChange={(e) => setEditingProject({ ...editingProject, image: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-850 text-slate-100 text-sm focus:outline-none mb-3"
+                          className="w-full px-4 py-3 rounded-xl bg-muted/40 border border-border text-foreground text-sm focus:outline-none mb-3"
                           placeholder="ex: gestaotributaria.png"
                         />
-                        <span className="text-slate-500 text-xxs block">
+                        <span className="text-muted-foreground text-xxs block">
                           Ao fazer upload, este nome será preenchido automaticamente com o arquivo selecionado.
                         </span>
                       </div>
                       
                       <div className="flex flex-col justify-end">
-                        <label className="w-full px-4 py-3.5 rounded-xl border border-dashed border-slate-800 hover:border-blue-500 flex items-center justify-center gap-2 cursor-pointer text-xs font-semibold text-slate-400 hover:text-white transition-all bg-slate-900">
+                        <label className="w-full px-4 py-3.5 rounded-xl border border-dashed border-border hover:border-accent flex items-center justify-center gap-2 cursor-pointer text-xs font-semibold text-muted-foreground hover:text-foreground transition-all bg-muted/40">
                           <Upload size={16} />
                           Upload de Imagem
                           <input
@@ -1300,25 +1300,25 @@ export default function AdminPanel() {
                     </div>
 
                     {/* Screenshot Upload/Field */}
-                    <div className="p-4 rounded-xl bg-slate-950 border border-slate-850 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="p-4 rounded-xl bg-background border border-border grid grid-cols-1 md:grid-cols-3 gap-6">
                       <div className="md:col-span-2">
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Nome do Arquivo de Print/Screenshot (Opcional)
                         </label>
                         <input
                           type="text"
                           value={editingProject.screenshot || ""}
                           onChange={(e) => setEditingProject({ ...editingProject, screenshot: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-850 text-slate-100 text-sm focus:outline-none mb-3"
+                          className="w-full px-4 py-3 rounded-xl bg-muted/40 border border-border text-foreground text-sm focus:outline-none mb-3"
                           placeholder="ex: screenshot-gestaotributaria.png"
                         />
-                        <span className="text-slate-500 text-xxs block">
+                        <span className="text-muted-foreground text-xxs block">
                           Se deixado em branco, o print no modal de detalhes usará a imagem de capa padrão acima.
                         </span>
                       </div>
                       
                       <div className="flex flex-col justify-end">
-                        <label className="w-full px-4 py-3.5 rounded-xl border border-dashed border-slate-800 hover:border-blue-500 flex items-center justify-center gap-2 cursor-pointer text-xs font-semibold text-slate-400 hover:text-white transition-all bg-slate-900">
+                        <label className="w-full px-4 py-3.5 rounded-xl border border-dashed border-border hover:border-accent flex items-center justify-center gap-2 cursor-pointer text-xs font-semibold text-muted-foreground hover:text-foreground transition-all bg-muted/40">
                           <Upload size={16} />
                           Upload de Print
                           <input
@@ -1332,26 +1332,26 @@ export default function AdminPanel() {
                     </div>
 
                     <div>
-                      <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                      <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                         Descrição (Português)
                       </label>
                       <textarea
                         rows={3}
                         value={editingProject.description_pt || ""}
                         onChange={(e) => setEditingProject({ ...editingProject, description_pt: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors resize-y"
+                        className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors resize-y"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                      <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                         Descrição (Inglês)
                       </label>
                       <textarea
                         rows={3}
                         value={editingProject.description_en || ""}
                         onChange={(e) => setEditingProject({ ...editingProject, description_en: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors resize-y"
+                        className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors resize-y"
                       />
                     </div>
 
@@ -1359,14 +1359,14 @@ export default function AdminPanel() {
                       <button
                         type="button"
                         onClick={() => setEditingProject(null)}
-                        className="px-6 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-350 hover:text-white hover:border-slate-700 text-sm font-semibold transition-colors"
+                        className="px-6 py-2.5 rounded-xl bg-muted border border-border text-muted-foreground hover:text-foreground hover:border-accent text-sm font-semibold transition-colors"
                       >
                         Cancelar
                       </button>
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-blue-600/10"
+                        className="px-6 py-2.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-foreground text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-sm"
                       >
                         <Save size={16} />
                         Salvar e Publicar
@@ -1378,12 +1378,12 @@ export default function AdminPanel() {
 
               {/* --- POSTS TAB --- */}
               {activeTab === "posts" && !editingPost && (
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8">
+                <div className="bg-muted/40 border border-border rounded-2xl p-6 md:p-8">
                   <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-bold text-white">Postagens do Blog</h2>
+                    <h2 className="text-xl font-bold text-foreground">Postagens do Blog</h2>
                     <button
                       onClick={handleAddNewPost}
-                      className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 font-semibold text-white text-sm transition-all flex items-center gap-1.5"
+                      className="px-4 py-2 rounded-xl bg-accent text-accent-foreground hover:opacity-90 font-semibold text-foreground text-sm transition-all flex items-center gap-1.5"
                     >
                       <Plus size={16} />
                       Nova Postagem
@@ -1392,30 +1392,30 @@ export default function AdminPanel() {
 
                   {isLoading && posts.length === 0 ? (
                     <div className="flex justify-center py-12">
-                      <RefreshCw className="animate-spin text-blue-500" size={32} />
+                      <RefreshCw className="animate-spin text-foreground" size={32} />
                     </div>
                   ) : posts.length === 0 ? (
-                    <p className="text-slate-500 text-center py-8">Nenhuma postagem cadastrada.</p>
+                    <p className="text-muted-foreground text-center py-8">Nenhuma postagem cadastrada.</p>
                   ) : (
                     <div className="space-y-4">
                       {posts.map((post, idx) => (
                         <div
                           key={post.id}
-                          className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 p-4 rounded-xl bg-slate-955 border border-slate-855 hover:border-slate-800 transition-colors"
+                          className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 p-4 rounded-xl bg-background border border-border hover:border-border transition-colors"
                         >
                           <div>
-                            <span className="text-slate-500 text-xs font-semibold block mb-1">
+                            <span className="text-muted-foreground text-xs font-semibold block mb-1">
                               ORDEM #{post.order || (idx + 1)} • {post.date} • {post.category || "Sem Categoria"} • {post.published ? "PUBLICADO" : "RASCUNHO"}
                             </span>
-                            <h3 className="font-bold text-white text-base">{post.title_pt}</h3>
-                            <span className="text-slate-400 text-xs line-clamp-1">{post.tags.join(", ")}</span>
+                            <h3 className="font-bold text-foreground text-base">{post.title_pt}</h3>
+                            <span className="text-muted-foreground text-xs line-clamp-1">{post.tags.join(", ")}</span>
                           </div>
                           
                           <div className="flex items-center gap-2 self-end sm:self-center">
                             <button
                               onClick={() => movePost(idx, "up")}
                               disabled={idx === 0 || isLoading}
-                              className="p-2 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-slate-400 hover:text-white transition-all disabled:opacity-30"
+                              className="p-2 rounded-lg bg-muted/40 border border-border hover:border-border text-muted-foreground hover:text-foreground transition-all disabled:opacity-30"
                               title="Subir"
                             >
                               <ArrowUp size={16} />
@@ -1423,7 +1423,7 @@ export default function AdminPanel() {
                             <button
                               onClick={() => movePost(idx, "down")}
                               disabled={idx === posts.length - 1 || isLoading}
-                              className="p-2 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-slate-400 hover:text-white transition-all disabled:opacity-30"
+                              className="p-2 rounded-lg bg-muted/40 border border-border hover:border-border text-muted-foreground hover:text-foreground transition-all disabled:opacity-30"
                               title="Descer"
                             >
                               <ArrowDown size={16} />
@@ -1431,7 +1431,7 @@ export default function AdminPanel() {
                             <button
                               onClick={() => handleEditPost(post)}
                               disabled={isLoading}
-                              className="p-2 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-blue-400 hover:bg-blue-600/5 transition-all"
+                              className="p-2 rounded-lg bg-muted/40 border border-border hover:border-border text-foreground hover:bg-accent/10 transition-all"
                               title="Editar"
                             >
                               <Edit2 size={16} />
@@ -1439,7 +1439,7 @@ export default function AdminPanel() {
                             <button
                               onClick={() => handleDeletePost(post.id)}
                               disabled={isLoading}
-                              className="p-2 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-red-400 hover:bg-red-500/5 transition-all"
+                              className="p-2 rounded-lg bg-muted/40 border border-border hover:border-border text-rose-500 hover:bg-rose-500/10 transition-all"
                               title="Remover"
                             >
                               <Trash2 size={16} />
@@ -1454,15 +1454,15 @@ export default function AdminPanel() {
 
               {/* POST FORM EDIT */}
               {activeTab === "posts" && editingPost && (
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8">
-                  <h2 className="text-xl font-bold text-white mb-6">
+                <div className="bg-muted/40 border border-border rounded-2xl p-6 md:p-8">
+                  <h2 className="text-xl font-bold text-foreground mb-6">
                     {isCreatingNew ? "Criar Nova Postagem" : `Editar: ${editingPost.title_pt}`}
                   </h2>
 
                   <form onSubmit={handlePostFormSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Slug / ID Único *
                         </label>
                         <input
@@ -1471,11 +1471,11 @@ export default function AdminPanel() {
                           disabled={!isCreatingNew}
                           value={editingPost.id || ""}
                           onChange={(e) => setEditingPost({ ...editingPost, id: e.target.value.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "") })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors disabled:opacity-50"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors disabled:opacity-50"
                         />
                       </div>
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Data de Publicação
                         </label>
                         <input
@@ -1483,11 +1483,11 @@ export default function AdminPanel() {
                           required
                           value={editingPost.date || ""}
                           onChange={(e) => setEditingPost({ ...editingPost, date: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Status
                         </label>
                         <div className="flex items-center mt-3">
@@ -1496,9 +1496,9 @@ export default function AdminPanel() {
                             id="published"
                             checked={editingPost.published || false}
                             onChange={(e) => setEditingPost({ ...editingPost, published: e.target.checked })}
-                            className="w-4 h-4 rounded text-blue-600 bg-slate-950 border-slate-800 focus:ring-blue-500"
+                            className="w-4 h-4 rounded text-accent bg-background border-border focus:ring-blue-500"
                           />
-                          <label htmlFor="published" className="ml-2 text-slate-300 text-sm font-medium">
+                          <label htmlFor="published" className="ml-2 text-foreground text-sm font-medium">
                             Publicado (Visível no site)
                           </label>
                         </div>
@@ -1507,7 +1507,7 @@ export default function AdminPanel() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Título (Português) *
                         </label>
                         <input
@@ -1515,11 +1515,11 @@ export default function AdminPanel() {
                           required
                           value={editingPost.title_pt || ""}
                           onChange={(e) => setEditingPost({ ...editingPost, title_pt: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-955 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Título (Inglês) *
                         </label>
                         <input
@@ -1527,14 +1527,14 @@ export default function AdminPanel() {
                           required
                           value={editingPost.title_en || ""}
                           onChange={(e) => setEditingPost({ ...editingPost, title_en: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                         />
                       </div>
                     </div>
 
                     {/* Categoria */}
                     <div>
-                      <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                      <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                         Categoria
                       </label>
                       {!showNewCategoryInput ? (
@@ -1548,7 +1548,7 @@ export default function AdminPanel() {
                                 setEditingPost({ ...editingPost, category: e.target.value });
                               }
                             }}
-                            className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                            className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                           >
                             <option value="">Sem Categoria</option>
                             {existingCategories.map((cat) => (
@@ -1566,7 +1566,7 @@ export default function AdminPanel() {
                             placeholder="Nome da nova categoria"
                             value={newCategoryName}
                             onChange={(e) => setNewCategoryName(e.target.value)}
-                            className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                            className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                           />
                           <button
                             type="button"
@@ -1577,7 +1577,7 @@ export default function AdminPanel() {
                                 setShowNewCategoryInput(false);
                               }
                             }}
-                            className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-colors"
+                            className="px-4 py-2 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-foreground font-semibold text-xs transition-colors"
                           >
                             Confirmar
                           </button>
@@ -1587,7 +1587,7 @@ export default function AdminPanel() {
                               setShowNewCategoryInput(false);
                               setNewCategoryName("");
                             }}
-                            className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white text-xs transition-colors"
+                            className="px-4 py-2 rounded-xl bg-muted/40 border border-border text-muted-foreground hover:text-foreground text-xs transition-colors"
                           >
                             Cancelar
                           </button>
@@ -1597,19 +1597,19 @@ export default function AdminPanel() {
 
                     {/* Tags */}
                     <div>
-                      <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                      <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                         Tags (separadas por vírgula)
                       </label>
                       <input
                         type="text"
                         value={editingPost.tags?.join(", ") || ""}
                         onChange={(e) => setEditingPost({ ...editingPost, tags: e.target.value.split(",").map((t) => t.trim()).filter(Boolean) })}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors mb-3"
+                        className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors mb-3"
                         placeholder="ex: React, SEO, CSS"
                       />
                       {existingTags.length > 0 && (
                         <div className="mt-2">
-                          <span className="text-slate-500 text-xs block mb-1.5">Tags sugeridas (clique para adicionar/remover):</span>
+                          <span className="text-muted-foreground text-xs block mb-1.5">Tags sugeridas (clique para adicionar/remover):</span>
                           <div className="flex flex-wrap gap-1.5">
                             {existingTags.map((tag) => {
                               const isSelected = editingPost.tags?.includes(tag);
@@ -1629,8 +1629,8 @@ export default function AdminPanel() {
                                   }}
                                   className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
                                     isSelected
-                                      ? "bg-blue-600 text-white"
-                                      : "bg-slate-950 border border-slate-850 text-slate-400 hover:text-white"
+                                      ? "bg-blue-600 text-foreground"
+                                      : "bg-background border border-border text-muted-foreground hover:text-foreground"
                                   }`}
                                 >
                                   {tag}
@@ -1643,25 +1643,25 @@ export default function AdminPanel() {
                     </div>
 
                     {/* Imagem do Post */}
-                    <div className="p-4 rounded-xl bg-slate-950 border border-slate-850 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="p-4 rounded-xl bg-background border border-border grid grid-cols-1 md:grid-cols-3 gap-6">
                       <div className="md:col-span-2">
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Nome do Arquivo de Imagem do Post (Opcional)
                         </label>
                         <input
                           type="text"
                           value={editingPost.image || ""}
                           onChange={(e) => setEditingPost({ ...editingPost, image: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-850 text-slate-100 text-sm focus:outline-none mb-3"
+                          className="w-full px-4 py-3 rounded-xl bg-muted/40 border border-border text-foreground text-sm focus:outline-none mb-3"
                           placeholder="ex: my-post-image.png"
                         />
-                        <span className="text-slate-550 text-xxs block">
+                        <span className="text-muted-foreground text-xxs block">
                           Ao fazer upload, este nome será preenchido automaticamente com o arquivo selecionado.
                         </span>
                       </div>
                       
                       <div className="flex flex-col justify-end">
-                        <label className="w-full px-4 py-3.5 rounded-xl border border-dashed border-slate-800 hover:border-blue-500 flex items-center justify-center gap-2 cursor-pointer text-xs font-semibold text-slate-400 hover:text-white transition-all bg-slate-900">
+                        <label className="w-full px-4 py-3.5 rounded-xl border border-dashed border-border hover:border-accent flex items-center justify-center gap-2 cursor-pointer text-xs font-semibold text-muted-foreground hover:text-foreground transition-all bg-muted/40">
                           <Upload size={16} />
                           Upload de Imagem
                           <input
@@ -1676,50 +1676,50 @@ export default function AdminPanel() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Resumo / Sumário (Português)
                         </label>
                         <textarea
                           rows={2}
                           value={editingPost.summary_pt || ""}
                           onChange={(e) => setEditingPost({ ...editingPost, summary_pt: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors resize-y"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors resize-y"
                         />
                       </div>
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Resumo / Sumário (Inglês)
                         </label>
                         <textarea
                           rows={2}
                           value={editingPost.summary_en || ""}
                           onChange={(e) => setEditingPost({ ...editingPost, summary_en: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors resize-y"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors resize-y"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                      <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                         Conteúdo do Post (Português - Suporta Markdown)
                       </label>
                       <textarea
                         rows={12}
                         value={editingPost.content_pt || ""}
                         onChange={(e) => setEditingPost({ ...editingPost, content_pt: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors font-mono resize-y"
+                        className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors font-mono resize-y"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                      <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                         Conteúdo do Post (Inglês - Suporta Markdown)
                       </label>
                       <textarea
                         rows={12}
                         value={editingPost.content_en || ""}
                         onChange={(e) => setEditingPost({ ...editingPost, content_en: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors font-mono resize-y"
+                        className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors font-mono resize-y"
                       />
                     </div>
 
@@ -1727,14 +1727,14 @@ export default function AdminPanel() {
                       <button
                         type="button"
                         onClick={() => setEditingPost(null)}
-                        className="px-6 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-350 hover:text-white hover:border-slate-700 text-sm font-semibold transition-colors"
+                        className="px-6 py-2.5 rounded-xl bg-muted border border-border text-muted-foreground hover:text-foreground hover:border-accent text-sm font-semibold transition-colors"
                       >
                         Cancelar
                       </button>
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-blue-600/10"
+                        className="px-6 py-2.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-foreground text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-sm"
                       >
                         <Save size={16} />
                         Salvar e Publicar
@@ -1746,12 +1746,12 @@ export default function AdminPanel() {
 
               {/* --- EDUCATION TAB --- */}
               {activeTab === "education" && !editingEducation && (
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8">
+                <div className="bg-muted/40 border border-border rounded-2xl p-6 md:p-8">
                   <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-bold text-white">Educação, Cursos & Certificados</h2>
+                    <h2 className="text-xl font-bold text-foreground">Educação, Cursos & Certificados</h2>
                     <button
                       onClick={handleAddNewEducation}
-                      className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 font-semibold text-white text-sm transition-all flex items-center gap-1.5"
+                      className="px-4 py-2 rounded-xl bg-accent text-accent-foreground hover:opacity-90 font-semibold text-foreground text-sm transition-all flex items-center gap-1.5"
                     >
                       <Plus size={16} />
                       Adicionar Registro
@@ -1760,27 +1760,27 @@ export default function AdminPanel() {
 
                   {isLoading && education.length === 0 ? (
                     <div className="flex justify-center py-12">
-                      <RefreshCw className="animate-spin text-blue-500" size={32} />
+                      <RefreshCw className="animate-spin text-foreground" size={32} />
                     </div>
                   ) : education.length === 0 ? (
-                    <p className="text-slate-500 text-center py-8">Nenhum registro cadastrado.</p>
+                    <p className="text-muted-foreground text-center py-8">Nenhum registro cadastrado.</p>
                   ) : (
                     <div className="space-y-4">
                       {education.map((edu, idx) => (
                         <div
                           key={edu.id}
-                          className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 p-4 rounded-xl bg-slate-950 border border-slate-850 hover:border-slate-800 transition-colors"
+                          className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 p-4 rounded-xl bg-background border border-border hover:border-border transition-colors"
                         >
                           <div>
-                            <span className="text-slate-500 text-xs font-semibold block mb-1">
+                            <span className="text-muted-foreground text-xs font-semibold block mb-1">
                               ORDEM #{edu.order} • {edu.type === "education" ? "Formação Acadêmica" : "Certificação/Curso"}
                             </span>
-                            <h3 className="font-bold text-white text-base">{edu.title_pt} ({edu.year})</h3>
-                            <span className="text-slate-400 text-xs block">{edu.institution}</span>
+                            <h3 className="font-bold text-foreground text-base">{edu.title_pt} ({edu.year})</h3>
+                            <span className="text-muted-foreground text-xs block">{edu.institution}</span>
                             {edu.skills && edu.skills.length > 0 && (
                               <div className="flex flex-wrap gap-1 mt-2">
                                 {edu.skills.map((s) => (
-                                  <span key={s} className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-[10px] text-slate-400">
+                                  <span key={s} className="px-1.5 py-0.5 rounded bg-muted/40 border border-border text-[10px] text-muted-foreground">
                                     {s}
                                   </span>
                                 ))}
@@ -1792,7 +1792,7 @@ export default function AdminPanel() {
                             <button
                               onClick={() => moveEducation(idx, "up")}
                               disabled={idx === 0 || isLoading}
-                              className="p-2 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-slate-400 hover:text-white transition-all disabled:opacity-30"
+                              className="p-2 rounded-lg bg-muted/40 border border-border hover:border-border text-muted-foreground hover:text-foreground transition-all disabled:opacity-30"
                               title="Subir"
                             >
                               <ArrowUp size={16} />
@@ -1800,7 +1800,7 @@ export default function AdminPanel() {
                             <button
                               onClick={() => moveEducation(idx, "down")}
                               disabled={idx === education.length - 1 || isLoading}
-                              className="p-2 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-slate-400 hover:text-white transition-all disabled:opacity-30"
+                              className="p-2 rounded-lg bg-muted/40 border border-border hover:border-border text-muted-foreground hover:text-foreground transition-all disabled:opacity-30"
                               title="Descer"
                             >
                               <ArrowDown size={16} />
@@ -1808,7 +1808,7 @@ export default function AdminPanel() {
                             <button
                               onClick={() => handleEditEducation(edu)}
                               disabled={isLoading}
-                              className="p-2 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-blue-400 hover:bg-blue-600/5 transition-all"
+                              className="p-2 rounded-lg bg-muted/40 border border-border hover:border-border text-foreground hover:bg-accent/10 transition-all"
                               title="Editar"
                             >
                               <Edit2 size={16} />
@@ -1816,7 +1816,7 @@ export default function AdminPanel() {
                             <button
                               onClick={() => handleDeleteEducation(edu.id)}
                               disabled={isLoading}
-                              className="p-2 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-red-400 hover:bg-red-500/5 transition-all"
+                              className="p-2 rounded-lg bg-muted/40 border border-border hover:border-border text-rose-500 hover:bg-rose-500/10 transition-all"
                               title="Remover"
                             >
                               <Trash2 size={16} />
@@ -1831,28 +1831,28 @@ export default function AdminPanel() {
 
               {/* EDUCATION FORM EDIT */}
               {activeTab === "education" && editingEducation && (
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8">
-                  <h2 className="text-xl font-bold text-white mb-6">
+                <div className="bg-muted/40 border border-border rounded-2xl p-6 md:p-8">
+                  <h2 className="text-xl font-bold text-foreground mb-6">
                     {isCreatingNew ? "Adicionar Formação/Curso" : `Editar Registro`}
                   </h2>
 
                   <form onSubmit={handleEducationFormSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Tipo de Registro *
                         </label>
                         <select
                           value={editingEducation.type || "education"}
                           onChange={(e) => setEditingEducation({ ...editingEducation, type: e.target.value as "education" | "certification" })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-855 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                         >
                           <option value="education">Formação Acadêmica (Graduação, etc.)</option>
                           <option value="certification">Curso / Certificação</option>
                         </select>
                       </div>
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Instituição *
                         </label>
                         <input
@@ -1860,7 +1860,7 @@ export default function AdminPanel() {
                           required
                           value={editingEducation.institution || ""}
                           onChange={(e) => setEditingEducation({ ...editingEducation, institution: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-855 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                           placeholder="Ex: Estácio, Rocketseat, AWS"
                         />
                       </div>
@@ -1868,7 +1868,7 @@ export default function AdminPanel() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Título (Português) *
                         </label>
                         <input
@@ -1876,12 +1876,12 @@ export default function AdminPanel() {
                           required
                           value={editingEducation.title_pt || ""}
                           onChange={(e) => setEditingEducation({ ...editingEducation, title_pt: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-855 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                           placeholder="Ex: Tecnólogo em Análise e Desenvolvimento de Sistemas"
                         />
                       </div>
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Título (Inglês) *
                         </label>
                         <input
@@ -1889,7 +1889,7 @@ export default function AdminPanel() {
                           required
                           value={editingEducation.title_en || ""}
                           onChange={(e) => setEditingEducation({ ...editingEducation, title_en: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-855 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                           placeholder="Ex: Associate Degree in Systems Analysis and Development"
                         />
                       </div>
@@ -1897,7 +1897,7 @@ export default function AdminPanel() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Ano / Período *
                         </label>
                         <input
@@ -1905,40 +1905,40 @@ export default function AdminPanel() {
                           required
                           value={editingEducation.year || ""}
                           onChange={(e) => setEditingEducation({ ...editingEducation, year: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-855 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                           placeholder="Ex: 2023 - 2026 ou 2024"
                         />
                       </div>
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Link da Credencial / Curso (Opcional)
                         </label>
                         <input
                           type="url"
                           value={editingEducation.url || ""}
                           onChange={(e) => setEditingEducation({ ...editingEducation, url: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-855 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                           placeholder="Ex: https://..."
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                      <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                         Skills Conquistadas (separadas por vírgula)
                       </label>
                       <input
                         type="text"
                         value={editingEducation.skills?.join(", ") || ""}
                         onChange={(e) => setEditingEducation({ ...editingEducation, skills: e.target.value.split(",").map((s) => s.trim()).filter(Boolean) })}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-855 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors mb-2"
+                        className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors mb-2"
                         placeholder="Ex: React, TypeScript, Node.js"
                       />
                       
                       {/* Suggest some skills from existing ones in case they want a quick click */}
                       {Array.from(new Set(education.flatMap((e) => e.skills || []))).filter(Boolean).length > 0 && (
                         <div className="mt-2">
-                          <span className="text-slate-400 text-xs block mb-1.5">Skills existentes (clique para adicionar/remover):</span>
+                          <span className="text-muted-foreground text-xs block mb-1.5">Skills existentes (clique para adicionar/remover):</span>
                           <div className="flex flex-wrap gap-1.5">
                             {Array.from(new Set(education.flatMap((e) => e.skills || []))).filter(Boolean).map((skill) => {
                               const isSelected = editingEducation.skills?.includes(skill);
@@ -1958,8 +1958,8 @@ export default function AdminPanel() {
                                   }}
                                   className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
                                     isSelected
-                                      ? "bg-blue-600 text-white"
-                                      : "bg-slate-950 border border-slate-850 text-slate-400 hover:text-white"
+                                      ? "bg-blue-600 text-foreground"
+                                      : "bg-background border border-border text-muted-foreground hover:text-foreground"
                                   }`}
                                 >
                                   {skill}
@@ -1975,14 +1975,14 @@ export default function AdminPanel() {
                       <button
                         type="button"
                         onClick={() => setEditingEducation(null)}
-                        className="px-6 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-350 hover:text-white hover:border-slate-700 text-sm font-semibold transition-colors"
+                        className="px-6 py-2.5 rounded-xl bg-muted border border-border text-muted-foreground hover:text-foreground hover:border-accent text-sm font-semibold transition-colors"
                       >
                         Cancelar
                       </button>
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-blue-600/10"
+                        className="px-6 py-2.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-foreground text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-sm"
                       >
                         <Save size={16} />
                         Salvar e Publicar
@@ -1994,12 +1994,12 @@ export default function AdminPanel() {
 
               {/* --- SKILLS TAB --- */}
               {activeTab === "skills" && !editingSkill && (
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8">
+                <div className="bg-muted/40 border border-border rounded-2xl p-6 md:p-8">
                   <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-bold text-white">Minhas Habilidades</h2>
+                    <h2 className="text-xl font-bold text-foreground">Minhas Habilidades</h2>
                     <button
                       onClick={handleAddNewSkill}
-                      className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 font-semibold text-white text-sm transition-all flex items-center gap-1.5"
+                      className="px-4 py-2 rounded-xl bg-accent text-accent-foreground hover:opacity-90 font-semibold text-foreground text-sm transition-all flex items-center gap-1.5"
                     >
                       <Plus size={16} />
                       Nova Habilidade
@@ -2008,16 +2008,16 @@ export default function AdminPanel() {
 
                   {isLoading && skills.length === 0 ? (
                     <div className="flex justify-center py-12">
-                      <RefreshCw className="animate-spin text-blue-500" size={32} />
+                      <RefreshCw className="animate-spin text-foreground" size={32} />
                     </div>
                   ) : skills.length === 0 ? (
-                    <p className="text-slate-500 text-center py-8">Nenhuma habilidade cadastrada.</p>
+                    <p className="text-muted-foreground text-center py-8">Nenhuma habilidade cadastrada.</p>
                   ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                       {skills.map((sk) => (
                         <div
                           key={sk.id}
-                          className="flex justify-between items-center gap-3 p-4 rounded-xl bg-slate-950 border border-slate-850 hover:border-slate-800 transition-colors"
+                          className="flex justify-between items-center gap-3 p-4 rounded-xl bg-background border border-border hover:border-border transition-colors"
                         >
                           <div className="flex items-center gap-3 overflow-hidden">
                             {sk.icon ? (
@@ -2030,13 +2030,13 @@ export default function AdminPanel() {
                                 }}
                               />
                             ) : (
-                              <div className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-500 text-xs flex-shrink-0">
+                              <div className="w-8 h-8 rounded-lg bg-muted/40 border border-border flex items-center justify-center text-muted-foreground text-xs flex-shrink-0">
                                 {sk.name.substring(0, 2).toUpperCase()}
                               </div>
                             )}
                             <div className="min-w-0">
-                              <h3 className="font-bold text-white text-sm truncate">{sk.name}</h3>
-                              <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-[10px] text-slate-405 capitalize">
+                              <h3 className="font-bold text-foreground text-sm truncate">{sk.name}</h3>
+                              <span className="px-1.5 py-0.5 rounded bg-muted/40 border border-border text-[10px] text-muted-foreground capitalize">
                                 {sk.category}
                               </span>
                             </div>
@@ -2046,7 +2046,7 @@ export default function AdminPanel() {
                             <button
                               onClick={() => handleEditSkill(sk)}
                               disabled={isLoading}
-                              className="p-1.5 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-blue-400 hover:bg-blue-600/5 transition-all"
+                              className="p-1.5 rounded-lg bg-muted/40 border border-border hover:border-border text-foreground hover:bg-accent/10 transition-all"
                               title="Editar"
                             >
                               <Edit2 size={14} />
@@ -2054,7 +2054,7 @@ export default function AdminPanel() {
                             <button
                               onClick={() => handleDeleteSkill(sk.id)}
                               disabled={isLoading}
-                              className="p-1.5 rounded-lg bg-slate-900 border border-slate-850 hover:border-slate-750 text-red-400 hover:bg-red-500/5 transition-all"
+                              className="p-1.5 rounded-lg bg-muted/40 border border-border hover:border-border text-rose-500 hover:bg-rose-500/10 transition-all"
                               title="Remover"
                             >
                               <Trash2 size={14} />
@@ -2069,15 +2069,15 @@ export default function AdminPanel() {
 
               {/* SKILLS FORM EDIT */}
               {activeTab === "skills" && editingSkill && (
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8">
-                  <h2 className="text-xl font-bold text-white mb-6">
+                <div className="bg-muted/40 border border-border rounded-2xl p-6 md:p-8">
+                  <h2 className="text-xl font-bold text-foreground mb-6">
                     {isCreatingNew ? "Adicionar Habilidade" : `Editar: ${editingSkill.name}`}
                   </h2>
 
                   <form onSubmit={handleSkillFormSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           ID Único / Slug *
                         </label>
                         <input
@@ -2086,12 +2086,12 @@ export default function AdminPanel() {
                           disabled={!isCreatingNew}
                           value={editingSkill.id || ""}
                           onChange={(e) => setEditingSkill({ ...editingSkill, id: e.target.value.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "") })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-955 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors disabled:opacity-50"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors disabled:opacity-50"
                           placeholder="ex: javascript"
                         />
                       </div>
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Nome da Habilidade *
                         </label>
                         <input
@@ -2099,20 +2099,20 @@ export default function AdminPanel() {
                           required
                           value={editingSkill.name || ""}
                           onChange={(e) => setEditingSkill({ ...editingSkill, name: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-955 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                           placeholder="Ex: React"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                      <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                         Categoria *
                       </label>
                       <select
                         value={editingSkill.category || "frontend"}
                         onChange={(e) => setEditingSkill({ ...editingSkill, category: e.target.value as any })}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-955 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                        className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                       >
                         <option value="frontend">Frontend</option>
                         <option value="backend">Backend</option>
@@ -2123,9 +2123,9 @@ export default function AdminPanel() {
                     </div>
 
                     {/* Skill Icon File Upload / Path */}
-                    <div className="p-4 rounded-xl bg-slate-950 border border-slate-850 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="p-4 rounded-xl bg-background border border-border grid grid-cols-1 md:grid-cols-3 gap-6">
                       <div className="md:col-span-2">
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Caminho do Ícone (.svg ou imagem) *
                         </label>
                         <input
@@ -2133,16 +2133,16 @@ export default function AdminPanel() {
                           required
                           value={editingSkill.icon || ""}
                           onChange={(e) => setEditingSkill({ ...editingSkill, icon: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-850 text-slate-100 text-sm focus:outline-none mb-3"
+                          className="w-full px-4 py-3 rounded-xl bg-muted/40 border border-border text-foreground text-sm focus:outline-none mb-3"
                           placeholder="Ex: /assets/icons/react.svg"
                         />
-                        <span className="text-slate-500 text-xxs block">
+                        <span className="text-muted-foreground text-xxs block">
                           Ao fazer upload de um ícone, este campo será preenchido automaticamente com o caminho correto.
                         </span>
                       </div>
                       
                       <div className="flex flex-col justify-end">
-                        <label className="w-full px-4 py-3.5 rounded-xl border border-dashed border-slate-800 hover:border-blue-500 flex items-center justify-center gap-2 cursor-pointer text-xs font-semibold text-slate-400 hover:text-white transition-all bg-slate-900">
+                        <label className="w-full px-4 py-3.5 rounded-xl border border-dashed border-border hover:border-accent flex items-center justify-center gap-2 cursor-pointer text-xs font-semibold text-muted-foreground hover:text-foreground transition-all bg-muted/40">
                           <Upload size={16} />
                           Upload de Ícone
                           <input
@@ -2159,14 +2159,14 @@ export default function AdminPanel() {
                       <button
                         type="button"
                         onClick={() => setEditingSkill(null)}
-                        className="px-6 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-350 hover:text-white hover:border-slate-700 text-sm font-semibold transition-colors"
+                        className="px-6 py-2.5 rounded-xl bg-muted border border-border text-muted-foreground hover:text-foreground hover:border-accent text-sm font-semibold transition-colors"
                       >
                         Cancelar
                       </button>
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-blue-600/10"
+                        className="px-6 py-2.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-foreground text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-sm"
                       >
                         <Save size={16} />
                         Salvar e Publicar
@@ -2178,13 +2178,13 @@ export default function AdminPanel() {
 
               {/* --- PROFILE TAB --- */}
               {activeTab === "profile" && editingProfile && (
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8">
-                  <h2 className="text-xl font-bold text-white mb-6">Perfil Pessoal</h2>
+                <div className="bg-muted/40 border border-border rounded-2xl p-6 md:p-8">
+                  <h2 className="text-xl font-bold text-foreground mb-6">Perfil Pessoal</h2>
 
                   <form onSubmit={handleProfileFormSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Seu Nome *
                         </label>
                         <input
@@ -2192,14 +2192,14 @@ export default function AdminPanel() {
                           required
                           value={editingProfile.name || ""}
                           onChange={(e) => setEditingProfile({ ...editingProfile, name: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-955 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                         />
                       </div>
                       
                       {/* Image Upload/Field */}
-                      <div className="p-4 rounded-xl bg-slate-950 border border-slate-850 grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="p-4 rounded-xl bg-background border border-border grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="md:col-span-2">
-                          <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                          <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                             Foto de Perfil (Caminho) *
                           </label>
                           <input
@@ -2207,15 +2207,15 @@ export default function AdminPanel() {
                             required
                             value={editingProfile.image || ""}
                             onChange={(e) => setEditingProfile({ ...editingProfile, image: e.target.value })}
-                            className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-850 text-slate-100 text-sm focus:outline-none mb-3"
+                            className="w-full px-4 py-3 rounded-xl bg-muted/40 border border-border text-foreground text-sm focus:outline-none mb-3"
                           />
-                          <span className="text-slate-500 text-xxs block">
+                          <span className="text-muted-foreground text-xxs block">
                             Ao fazer upload da foto, o campo será preenchido com a pasta `/assets/` correta.
                           </span>
                         </div>
                         
                         <div className="flex flex-col justify-end">
-                          <label className="w-full px-4 py-3.5 rounded-xl border border-dashed border-slate-800 hover:border-blue-500 flex items-center justify-center gap-2 cursor-pointer text-xs font-semibold text-slate-400 hover:text-white transition-all bg-slate-900">
+                          <label className="w-full px-4 py-3.5 rounded-xl border border-dashed border-border hover:border-accent flex items-center justify-center gap-2 cursor-pointer text-xs font-semibold text-muted-foreground hover:text-foreground transition-all bg-muted/40">
                             <Upload size={16} />
                             Upload Foto
                             <input
@@ -2231,7 +2231,7 @@ export default function AdminPanel() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Subtítulo (Português) *
                         </label>
                         <input
@@ -2239,11 +2239,11 @@ export default function AdminPanel() {
                           required
                           value={editingProfile.subtitle_pt || ""}
                           onChange={(e) => setEditingProfile({ ...editingProfile, subtitle_pt: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-955 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Subtítulo (Inglês) *
                         </label>
                         <input
@@ -2251,32 +2251,32 @@ export default function AdminPanel() {
                           required
                           value={editingProfile.subtitle_en || ""}
                           onChange={(e) => setEditingProfile({ ...editingProfile, subtitle_en: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-955 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                      <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                         Biografia / Sobre Mim (Português)
                       </label>
                       <textarea
                         rows={4}
                         value={editingProfile.bio_pt || ""}
                         onChange={(e) => setEditingProfile({ ...editingProfile, bio_pt: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-955 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors resize-y"
+                        className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors resize-y"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                      <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                         Biografia / Sobre Mim (Inglês)
                       </label>
                       <textarea
                         rows={4}
                         value={editingProfile.bio_en || ""}
                         onChange={(e) => setEditingProfile({ ...editingProfile, bio_en: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-955 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors resize-y"
+                        className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors resize-y"
                       />
                     </div>
 
@@ -2284,14 +2284,14 @@ export default function AdminPanel() {
                       <button
                         type="button"
                         onClick={() => setEditingProfile(profile)}
-                        className="px-6 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-350 hover:text-white hover:border-slate-700 text-sm font-semibold transition-colors"
+                        className="px-6 py-2.5 rounded-xl bg-muted border border-border text-muted-foreground hover:text-foreground hover:border-accent text-sm font-semibold transition-colors"
                       >
                         Resetar
                       </button>
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-blue-600/10"
+                        className="px-6 py-2.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-foreground text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-sm"
                       >
                         <Save size={16} />
                         Salvar e Publicar
@@ -2303,59 +2303,59 @@ export default function AdminPanel() {
 
               {/* --- SETTINGS TAB --- */}
               {activeTab === "settings" && (
-                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8">
-                  <h2 className="text-xl font-bold text-white mb-4">Configurações de Acesso</h2>
-                  <p className="text-slate-400 text-sm mb-6">
+                <div className="bg-muted/40 border border-border rounded-2xl p-6 md:p-8">
+                  <h2 className="text-xl font-bold text-foreground mb-4">Configurações de Acesso</h2>
+                  <p className="text-muted-foreground text-sm mb-6">
                     Abaixo estão os parâmetros salvos no navegador para comunicação com o GitHub.
                   </p>
 
                   <form onSubmit={handleConnect} className="space-y-4 max-w-md">
                     <div>
-                      <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                      <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                         Token de Acesso Pessoal (PAT)
                       </label>
                       <input
                         type="password"
                         value={token}
                         onChange={(e) => setToken(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                        className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                       />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Usuário
                         </label>
                         <input
                           type="text"
                           value={owner}
                           onChange={(e) => setOwner(e.target.value)}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                         />
                       </div>
                       <div>
-                        <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                           Repositório
                         </label>
                         <input
                           type="text"
                           value={repo}
                           onChange={(e) => setRepo(e.target.value)}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                          className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-slate-350 text-xs font-semibold uppercase tracking-wider mb-2">
+                      <label className="block text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-2">
                         Branch
                       </label>
                       <input
                         type="text"
                         value={branch}
                         onChange={(e) => setBranch(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-850 focus:border-blue-500 focus:outline-none text-slate-100 text-sm transition-colors"
+                        className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:border-accent focus:outline-none text-foreground text-sm transition-colors"
                       />
                     </div>
 
@@ -2363,7 +2363,7 @@ export default function AdminPanel() {
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-blue-600/10"
+                        className="px-6 py-2.5 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-foreground text-sm font-semibold transition-colors flex items-center gap-1.5 shadow-lg shadow-sm"
                       >
                         {isLoading ? (
                           <RefreshCw className="animate-spin" size={16} />
